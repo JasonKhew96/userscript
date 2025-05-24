@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name        Abema premium/free ends time
-// @match       https://abema.tv/video/*
+// @match       https://abema.tv/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
 // ==/UserScript==
@@ -35,6 +35,7 @@
                 )
                 .closest('.com-content-list-ContentListEpisodeItem__overview')
                 .querySelector('.com-vod-VODLabel > span')
+              if (!span) continue
               const endAt = new Date()
               endAt.setTime(term.endAt * 1000)
               span.textContent =
