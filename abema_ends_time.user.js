@@ -24,23 +24,21 @@
       let jsonPromise = __this.__json.apply(__this, arguments)
       jsonPromise = jsonPromise.then(res => {
         if ('episodeGroupContents' in res) {
-          console.log(res)
           const contents = res.episodeGroupContents
           setTimeout(() => {
             for (const content of contents) {
               const term = content.video.terms[0]
               const id = content.id
-              test = document
+              const span = document
                 .querySelector(
                   `.com-content-list-ContentListEpisodeItem__link[href$="${id}"]`
                 )
                 .closest('.com-content-list-ContentListEpisodeItem__overview')
                 .querySelector('.com-vod-VODLabel > span')
-              console.log(test)
               const endAt = new Date()
               endAt.setTime(term.endAt * 1000)
-              test.textContent +=
-                test.textContent + ' ' + endAt.toLocaleString()
+              span.textContent =
+                span.textContent + ' ' + endAt.toLocaleString()
             }
           }, 500)
         }
