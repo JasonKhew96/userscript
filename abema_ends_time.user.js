@@ -40,7 +40,7 @@
               span.textContent =
                 span.textContent + ' ' + endAt.toLocaleString()
             }
-          }, 500)
+          }, 1000)
         }
         return res
       })
