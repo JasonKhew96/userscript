@@ -2,13 +2,29 @@
 // @name        Abema premium/free ends time
 // @match       https://abema.tv/*
 // @grant       none
-// @version     1.2
+// @version     1.3
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
 // ==/UserScript==
 
 ;(() => {
+  const dateTimeformatter = new Intl.DateTimeFormat('ja-JP', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Tokyo'
+  })
+  const whitelist = [
+    'com-content-list-ContentListEpisodeItem__overview',
+    'com-content-list-ContentListItemList com-content-list-ContentListItemList--rounded-bottom',
+    'c-application-DesktopAppContainer__main',
+    'com-content-list-ContentListItemList'
+  ]
+
   const episodeMap = new Map()
   /** @type {globalThis.Window} */
   const win =
@@ -47,13 +63,6 @@
         const target = mutation.target
         const addedNodes = mutation.addedNodes
         if (!addedNodes.length) continue
-        const addedNode = addedNodes[0]
-        const whitelist = [
-          'com-content-list-ContentListEpisodeItem__overview',
-          'com-content-list-ContentListItemList com-content-list-ContentListItemList--rounded-bottom',
-          'c-application-DesktopAppContainer__main',
-          'com-content-list-ContentListItemList'
-        ]
         if (!whitelist.includes(target.className)) continue
         const episodes =
           target.className ==
@@ -69,16 +78,12 @@
             .reverse()[0]
           const contents = episodeMap.get(id)
           const term = contents.video.terms[0]
-          const endAt = term.endAt
+          const endAt = dateTimeformatter.format(new Date(term.endAt * 1000))
           const onDemandType = term.onDemandType == 1 ? 'プレミアム' : '無料'
           const span = episode.querySelector('.com-vod-VODLabel__text')
-          span.textContent =
-            onDemandType + ' - ' + new Date(endAt * 1000).toLocaleString()
+          span.textContent = onDemandType + ' ～ ' + endAt
         }
       }
-    },
-    // {
-    //   childList: true
-    // }
+    }
   )
 })()
