@@ -2,10 +2,11 @@
 // @name        Abema premium/free ends time
 // @match       https://abema.tv/*
 // @grant       none
-// @version     1.4
+// @version     1.5
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
+// @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/abema-ends-time.user.js
 // ==/UserScript==
 
 ;(() => {
