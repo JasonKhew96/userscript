@@ -2,7 +2,7 @@
 // @name        Abema premium/free ends time
 // @match       https://abema.tv/*
 // @grant       none
-// @version     1.5
+// @version     1.6
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
@@ -82,7 +82,7 @@
               ".com-content-list-ContentListEpisodeItem__link"
             ).href
           )
-          const id = url.pathname.split("/").reverse()[0]
+          const id = url.pathname.split("/").pop()
           const contents = episodeMap.get(id)
           const term = contents.video.terms[0]
           const endAt = dateTimeformatter.format(new Date(term.endAt * 1000))
