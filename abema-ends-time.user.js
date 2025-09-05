@@ -2,7 +2,7 @@
 // @name        Abema premium/free ends time
 // @match       https://abema.tv/*
 // @grant       none
-// @version     1.6
+// @version     1.7
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
@@ -12,8 +12,8 @@
 ;(() => {
   const dateTimeformatter = new Intl.DateTimeFormat("ja-JP", {
     year: "numeric",
-    month: "numeric",
-    day: "numeric",
+    month: "2-digit",
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
