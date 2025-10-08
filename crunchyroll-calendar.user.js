@@ -2,7 +2,7 @@
 // @name        Better Crunchyroll simulcast calendar
 // @match       https://www.crunchyroll.com/simulcastcalendar*
 // @grant       none
-// @version     2.0
+// @version     2.1
 // @author      JasonKhew96
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/crunchyroll-calendar.user.js
 // ==/UserScript==
@@ -26,7 +26,7 @@
   var shortTime = new Intl.DateTimeFormat('en-US', {
     timeStyle: 'short'
   })
-  const times = document.querySelectorAll('time')
+  const times = document.querySelectorAll('time.available-time')
   times.forEach(t => {
     t.textContent = shortTime.format(Date.parse(t.getAttribute('datetime')))
   })
