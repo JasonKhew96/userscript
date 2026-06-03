@@ -2,7 +2,7 @@
 // @name        Abema premium/free ends time
 // @match       https://abema.tv/*
 // @grant       none
-// @version     1.8
+// @version     1.9
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @author      JasonKhew96
 // @description shows abema premium/free ends time
@@ -66,7 +66,7 @@
           continue
 
         const episodes = target.querySelectorAll(
-          '.com-contentlist-SectionItemList__item'
+          '.com-contentlist-ItemListForContentlistContent__item'
         )
         for (const episode of episodes) {
           const id =
