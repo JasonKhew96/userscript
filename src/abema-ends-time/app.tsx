@@ -20,7 +20,8 @@ const dateTimeformatter = new Intl.DateTimeFormat("ja-JP", {
 })
 const whitelist = [
   "com-contentlist-ContentlistContainer",
-  "com-contentlist-ContentlistSectionList",
+  "com-a-ResponsiveMainContent__inner",
+  "com-contentlist-ItemListForContentlistContent",
 ]
 const episodeMap = new Map()
 
@@ -46,10 +47,10 @@ VM.observe(
       const target: Node = mutation.target
       const addedNodes = mutation.addedNodes
       if (!addedNodes.length) continue
-      if (!(target instanceof HTMLDivElement)) continue
+      if (!(target instanceof HTMLDivElement || target instanceof HTMLUListElement)) continue
       if (!whitelist.includes(target.classList[0])) continue
       const episodes: NodeListOf<Element> = target.querySelectorAll(
-        ".com-contentlist-ItemListForContentlistContent__item",
+        ".com-contentlist-SectionItemList__item, .com-contentlist-ItemListForContentlistContent__item",
       )
       for (const episode of episodes) {
         if (!(episode instanceof HTMLLIElement)) continue
@@ -67,7 +68,7 @@ VM.observe(
         const endAt = dateTimeformatter.format(new Date(term.endAt * 1000))
         const onDemandType = term.onDemandType == 1 ? "プレミアム" : "無料"
         const span: HTMLSpanElement | null = episode.querySelector(
-          ".com-shared-viewing_type-ViewingTypeLabel__text",
+          ".com-shared-viewing_type-ViewingTypeLabel__text, .com-shared-premium_precedence-PremiumPrecedenceLabel__text",
         )
         if (!span) continue
         span.textContent = onDemandType + " ～ " + endAt
