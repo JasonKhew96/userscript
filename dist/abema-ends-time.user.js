@@ -24,7 +24,7 @@ var dateTimeformatter = new Intl.DateTimeFormat("ja-JP", {
   hour12: false,
   timeZone: "Asia/Tokyo"
 });
-var whitelist = ["com-contentlist-ContentlistContainer", "com-contentlist-ContentlistSectionList"];
+var whitelist = ["com-contentlist-ContentlistContainer", "com-a-ResponsiveMainContent__inner", "com-contentlist-ItemListForContentlistContent"];
 var episodeMap = new Map();
 Response.prototype.__json = Response.prototype.json;
 Response.prototype.json = function () {
@@ -47,9 +47,9 @@ VM.observe(document.body, function (mutations) {
     var target = mutation.target;
     var addedNodes = mutation.addedNodes;
     if (!addedNodes.length) continue;
-    if (!(target instanceof HTMLDivElement)) continue;
+    if (!(target instanceof HTMLDivElement || target instanceof HTMLUListElement)) continue;
     if (!whitelist.includes(target.classList[0])) continue;
-    var episodes = target.querySelectorAll(".com-contentlist-ItemListForContentlistContent__item");
+    var episodes = target.querySelectorAll(".com-contentlist-SectionItemList__item, .com-contentlist-ItemListForContentlistContent__item");
     for (var _iterator3 = _createForOfIteratorHelperLoose(episodes), _step3; !(_step3 = _iterator3()).done;) {
       var episode = _step3.value;
       if (!(episode instanceof HTMLLIElement)) continue;
@@ -66,7 +66,7 @@ VM.observe(document.body, function (mutations) {
       var term = contents.video.terms[0];
       var endAt = dateTimeformatter.format(new Date(term.endAt * 1000));
       var onDemandType = term.onDemandType == 1 ? "プレミアム" : "無料";
-      var span = episode.querySelector(".com-shared-viewing_type-ViewingTypeLabel__text");
+      var span = episode.querySelector(".com-shared-viewing_type-ViewingTypeLabel__text, .com-shared-premium_precedence-PremiumPrecedenceLabel__text");
       if (!span) continue;
       span.textContent = onDemandType + " ～ " + endAt;
     }
