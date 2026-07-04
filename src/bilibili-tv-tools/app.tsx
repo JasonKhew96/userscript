@@ -1,10 +1,10 @@
 const xhr_proto = GMCompat.unsafeWindow.XMLHttpRequest.prototype
-const backup_open = xhr_proto.open
+const backup_xhr_open = xhr_proto.open
 
-function new_open(this: XMLHttpRequest, ...args: any[]) {
+function new_xhr_open(this: XMLHttpRequest, ...args: any[]) {
   const [method, url, async, user, password] = args
   if (typeof url != "string")
-    return GMCompat.apply(this, backup_open, [
+    return GMCompat.apply(this, backup_xhr_open, [
       method,
       url,
       async,
@@ -18,7 +18,7 @@ function new_open(this: XMLHttpRequest, ...args: any[]) {
   }
   const parsedUrl = URL.parse(newUrl)
   if (!parsedUrl?.search)
-    return GMCompat.apply(this, backup_open, [
+    return GMCompat.apply(this, backup_xhr_open, [
       method,
       url,
       async,
@@ -31,7 +31,19 @@ function new_open(this: XMLHttpRequest, ...args: any[]) {
   parsedUrl.search = "?" + params.toString()
   newUrl = parsedUrl.toString()
 
-  GMCompat.apply(this, backup_open, [method, newUrl, async, user, password])
+  GMCompat.apply(this, backup_xhr_open, [method, newUrl, async, user, password])
 }
 
-xhr_proto.open = GMCompat.export(new_open)
+xhr_proto.open = GMCompat.export(new_xhr_open)
+
+document.addEventListener(
+  "click",
+  function (event) {
+    if (!event.target || !(event.target instanceof HTMLAnchorElement)) return
+    const link = event.target.closest("a")
+    if (link && link.getAttribute("target") === "_blank") {
+      link.removeAttribute("target")
+    }
+  },
+  true,
+)
