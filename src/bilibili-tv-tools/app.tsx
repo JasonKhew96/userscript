@@ -39,10 +39,10 @@ xhr_proto.open = GMCompat.export(new_xhr_open)
 document.addEventListener(
   "click",
   function (event) {
-    if (!event.target || !(event.target instanceof HTMLAnchorElement)) return
+    if (!event.target || !(event.target instanceof Element)) return
     const link = event.target.closest("a")
     if (link && link.getAttribute("target") === "_blank") {
-      link.removeAttribute("target")
+      link.setAttribute("target", "_self")
     }
   },
   true,

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        BiliBili.tv Tools
 // @match       https://www.bilibili.tv/*
-// @version     0.2
+// @version     0.3
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @run-at      document-start
@@ -40,10 +40,10 @@ function new_xhr_open() {
 }
 xhr_proto.open = GMCompat["export"](new_xhr_open);
 document.addEventListener("click", function (event) {
-  if (!event.target || !(event.target instanceof HTMLAnchorElement)) return;
+  if (!event.target || !(event.target instanceof Element)) return;
   var link = event.target.closest("a");
   if (link && link.getAttribute("target") === "_blank") {
-    link.removeAttribute("target");
+    link.setAttribute("target", "_self");
   }
 }, true);
 
