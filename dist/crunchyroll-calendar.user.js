@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name        Better Crunchyroll simulcast calendar
 // @match       https://www.crunchyroll.com/simulcastcalendar*
-// @version     2.1
+// @match       https://www.crunchyroll.com/*/simulcastcalendar*
+// @version     2.2
 // @author      JasonKhew96
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/crunchyroll-calendar.user.js
 // @grant       none
