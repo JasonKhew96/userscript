@@ -17,7 +17,8 @@ export default defineConfig(
     'abema-ends-time': 'src/abema-ends-time/index.ts',
     'anigamer-seasonal': 'src/anigamer-seasonal/index.ts',
     'crunchyroll-calendar': 'src/crunchyroll-calendar/index.ts',
-    'bilibili-tv-tools': 'src/bilibili-tv-tools/index.ts'
+    'bilibili-tv-tools': 'src/bilibili-tv-tools/index.ts',
+    'nuke-feibanyama': 'src/nuke-feibanyama/index.ts',
   }).map(([name, entry]) => ({
     input: entry,
     plugins: [
