@@ -3,7 +3,6 @@
 // @match       https://www.bilibili.tv/*
 // @version     0.3
 // @require     https://unpkg.com/gm-compat@1.1.0
-// @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @grant       unsafeWindow
 // @run-at      document-start
 // @author      JasonKhew96
