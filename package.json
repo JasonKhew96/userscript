@@ -42,7 +42,7 @@
     "@types/eslint": "^9.6.1",
     "@typescript-eslint/eslint-plugin": "^8.18.1",
     "@typescript-eslint/parser": "^8.18.1",
-    "@unocss/postcss": "^0.65.2",
+    "@unocss/postcss": "^0.65.4",
     "autoprefixer": "^10.4.20",
     "babel-preset-solid": "^1.9.3",
     "commander": "^12.1.0",
@@ -64,7 +64,7 @@
     "rollup-plugin-userscript": "^0.3.5",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.1",
-    "unocss": "^0.65.2"
+    "unocss": "^0.65.4"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
