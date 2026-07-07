@@ -20,6 +20,7 @@ export default defineConfig(
     'bilibili-tv-tools': 'src/bilibili-tv-tools/index.ts',
     'nuke-feibanyama': 'src/nuke-feibanyama/index.ts',
     'private-dashboard': 'src/private-dashboard/index.ts',
+    'bgm-wiki-tools': 'src/bgm-wiki-tools/index.ts',
   }).map(([name, entry]) => ({
     input: entry,
     plugins: [
