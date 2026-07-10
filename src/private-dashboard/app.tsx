@@ -115,22 +115,7 @@ function searchAnilist(
     >,
   ) => void,
 ) {
-  const query = `
-    query ($search: String!) {
-      Page {
-        media(search: $search, type: ANIME) {
-          id
-          seasonYear
-          seasonInt
-          title {
-            romaji
-            english
-            native
-          }
-        }
-      }
-    }
-  `
+  const query = "query($search:String!){Page{media(search:$search,type:ANIME){id seasonYear seasonInt title{romaji english native}}}}"
   GM_xmlhttpRequest({
     url: `https://graphql.anilist.co`,
     method: "POST",
