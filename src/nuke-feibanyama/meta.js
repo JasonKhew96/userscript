@@ -6,7 +6,7 @@
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @grant       unsafeWindow
 // @version     0.1
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/nuke-feibanyama.user.js
 // ==/UserScript==
 

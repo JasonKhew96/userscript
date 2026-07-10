@@ -4,7 +4,7 @@
 // @match       https://www.crunchyroll.com/*/simulcastcalendar*
 // @grant       none
 // @version     2.2
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/crunchyroll-calendar.user.js
 // ==/UserScript==
 

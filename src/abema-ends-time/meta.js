@@ -4,7 +4,7 @@
 // @grant       none
 // @version     1.10
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @description shows abema premium/free ends time
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/abema-ends-time.user.js
 // ==/UserScript==

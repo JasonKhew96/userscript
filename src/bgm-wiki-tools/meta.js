@@ -4,7 +4,7 @@
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @grant       GM_addStyle
 // @version     0.1
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/bgm-wiki-tools.user.js
 // ==/UserScript==
 

@@ -3,7 +3,7 @@
 // @match       https://ani.gamer.com.tw/seasonal.php*
 // @grant       none
 // @version     1.0
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/anigamer-seasonal.user.js
 // ==/UserScript==
 

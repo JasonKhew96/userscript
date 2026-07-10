@@ -5,7 +5,7 @@
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @grant       unsafeWindow
 // @run-at      document-start
-// @author      JasonKhew96
+// @author      process.env.AUTHOR
 // @description none
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/bilibili-tv-tools.user.js
 // ==/UserScript==
