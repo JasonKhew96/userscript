@@ -8,6 +8,7 @@ import { readPackageUp } from 'read-package-up';
 import { defineConfig } from 'rollup';
 import postcssPlugin from 'rollup-plugin-postcss';
 import userscript from 'rollup-plugin-userscript';
+import terser from '@rollup/plugin-terser';
 import fs from 'node:fs';
 
 const { packageJson } = await readPackageUp();
@@ -41,6 +42,7 @@ export default defineConfig(
         exclude: 'node_modules/**',
         extensions,
       }),
+      terser(),
       replacePlugin({
         values: {
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
