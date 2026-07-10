@@ -8,34 +8,4 @@
 // @grant       none
 // ==/UserScript==
 
-(function () {
-'use strict';
-
-var releases = document.querySelectorAll(".releases > li");
-releases.forEach(function (r) {
-  var _r$querySelector;
-  var name = (_r$querySelector = r.querySelector("cite[itemprop='name']")) == null ? void 0 : _r$querySelector.textContent;
-  if (name != null && name.includes("Dub")) {
-    r.remove();
-    return;
-  }
-  var element = r.querySelector(".available-episode-link");
-  if (!(element instanceof HTMLAnchorElement)) return;
-  var link = element.href;
-  var match = link.match(/\/watch\/([A-Z,0-9]{9,})+\//);
-  if (match && match[1].length > 9 && !match[1].endsWith("JAJP")) {
-    r.remove();
-    return;
-  }
-});
-var shortTime = new Intl.DateTimeFormat("en-US", {
-  timeStyle: "short"
-});
-var times = document.querySelectorAll("time.available-time");
-times.forEach(function (t) {
-  var dt = t.getAttribute("datetime");
-  if (!dt) return;
-  t.textContent = shortTime.format(Date.parse(dt));
-});
-
-})();
+!function(){"use strict";document.querySelectorAll(".releases > li").forEach(function(e){var t,r=null==(t=e.querySelector("cite[itemprop='name']"))?void 0:t.textContent;if(null!=r&&r.includes("Dub"))e.remove();else{var n=e.querySelector(".available-episode-link");if(n instanceof HTMLAnchorElement){var l=n.href.match(/\/watch\/([A-Z,0-9]{9,})+\//);l&&l[1].length>9&&!l[1].endsWith("JAJP")&&e.remove()}}});var e=new Intl.DateTimeFormat("en-US",{timeStyle:"short"});document.querySelectorAll("time.available-time").forEach(function(t){var r=t.getAttribute("datetime");r&&(t.textContent=e.format(Date.parse(r)))})}();

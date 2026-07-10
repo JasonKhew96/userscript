@@ -7,40 +7,4 @@
 // @grant       none
 // ==/UserScript==
 
-(function () {
-'use strict';
-
-function _createForOfIteratorHelperLoose(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (t) return (t = t.call(r)).next.bind(t); if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) { t && (r = t); var o = 0; return function () { return o >= r.length ? { done: true } : { done: false, value: r[o++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-var s = document.createElement("style");
-s.innerHTML = ".btn-details{display:flex;text-align:center;align-items:center;justify-content:center;padding:8px 12px;border:1px solid var(--anime-tertiary-color);border-radius:6px;color:var(--anime-tertiary-color);background-color:transparent;cursor:pointer;white-space:nowrap;word-break:keep-all;width:100%}.btn-details:hover{background-color:var(--anime-tertiary-color);color:rgba(255,255,255,.95)}";
-document.head.appendChild(s);
-var btns = document.querySelectorAll(".btn-subscribe");
-var _loop = function _loop() {
-    var btn = _step.value;
-    if (!(btn instanceof HTMLDivElement)) return 0; // continue
-    var id = btn.dataset.gtmVar1;
-    var c = document.createElement("div");
-    c.classList.add("btn-details");
-    c.textContent = "作品資料";
-    c.onclick = function () {
-      window.open("https://acg.gamer.com.tw/acgDetail.php?s=" + id, "_blank");
-    };
-    var span = document.createElement("span");
-    span.classList.add("material-icons-round");
-    span.textContent = "info";
-    span.style = "font-size:18px;margin-right:4px";
-    c.prepend(span);
-    if (!btn.parentElement) return 0; // continue
-    btn.parentElement.style.gap = "0.5em";
-    btn.parentElement.style.alignItems = "stretch";
-    btn.parentElement.append(c);
-  },
-  _ret;
-for (var _iterator = _createForOfIteratorHelperLoose(btns), _step; !(_step = _iterator()).done;) {
-  _ret = _loop();
-  if (_ret === 0) continue;
-}
-
-})();
+!function(){"use strict";function e(e,t){(null==t||t>e.length)&&(t=e.length);for(var r=0,n=Array(t);r<t;r++)n[r]=e[r];return n}var t=document.createElement("style");t.innerHTML=".btn-details{display:flex;text-align:center;align-items:center;justify-content:center;padding:8px 12px;border:1px solid var(--anime-tertiary-color);border-radius:6px;color:var(--anime-tertiary-color);background-color:transparent;cursor:pointer;white-space:nowrap;word-break:keep-all;width:100%}.btn-details:hover{background-color:var(--anime-tertiary-color);color:rgba(255,255,255,.95)}",document.head.appendChild(t);for(var r,n=function(){var e=r.value;if(!(e instanceof HTMLDivElement))return 0;var t=e.dataset.gtmVar1,n=document.createElement("div");n.classList.add("btn-details"),n.textContent="作品資料",n.onclick=function(){window.open("https://acg.gamer.com.tw/acgDetail.php?s="+t,"_blank")};var a=document.createElement("span");if(a.classList.add("material-icons-round"),a.textContent="info",a.style="font-size:18px;margin-right:4px",n.prepend(a),!e.parentElement)return 0;e.parentElement.style.gap="0.5em",e.parentElement.style.alignItems="stretch",e.parentElement.append(n)},a=function(t,r){var n="undefined"!=typeof Symbol&&t[Symbol.iterator]||t["@@iterator"];if(n)return(n=n.call(t)).next.bind(n);if(Array.isArray(t)||(n=function(t,r){if(t){if("string"==typeof t)return e(t,r);var n={}.toString.call(t).slice(8,-1);return"Object"===n&&t.constructor&&(n=t.constructor.name),"Map"===n||"Set"===n?Array.from(t):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?e(t,r):void 0}}(t))||r){n&&(t=n);var a=0;return function(){return a>=t.length?{done:!0}:{done:!1,value:t[a++]}}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}(document.querySelectorAll(".btn-subscribe"));!(r=a()).done;)n()}();
