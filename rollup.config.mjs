@@ -8,20 +8,18 @@ import { readPackageUp } from 'read-package-up';
 import { defineConfig } from 'rollup';
 import postcssPlugin from 'rollup-plugin-postcss';
 import userscript from 'rollup-plugin-userscript';
+import fs from 'node:fs';
 
 const { packageJson } = await readPackageUp();
 const extensions = ['.ts', '.tsx', '.mjs', '.js', '.jsx'];
 
+const entries = fs.readdirSync("./src/").filter((filename) => filename != "types").reduce((map, dir) => {
+  map[dir] = `src/${dir}/index.ts`
+  return map
+}, {})
+
 export default defineConfig(
-  Object.entries({
-    'abema-ends-time': 'src/abema-ends-time/index.ts',
-    'anigamer-seasonal': 'src/anigamer-seasonal/index.ts',
-    'crunchyroll-calendar': 'src/crunchyroll-calendar/index.ts',
-    'bilibili-tv-tools': 'src/bilibili-tv-tools/index.ts',
-    'nuke-feibanyama': 'src/nuke-feibanyama/index.ts',
-    'private-dashboard': 'src/private-dashboard/index.ts',
-    'bgm-wiki-tools': 'src/bgm-wiki-tools/index.ts',
-  }).map(([name, entry]) => ({
+  Object.entries(entries).map(([name, entry]) => ({
     input: entry,
     plugins: [
       postcssPlugin({
