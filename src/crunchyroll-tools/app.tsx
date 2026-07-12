@@ -1,6 +1,7 @@
 import VM from '@violentmonkey/dom'
 
 type CustomData = {
+  eligible_region: string
   series_id: string
   season_id: string
   episode_id: string
@@ -9,6 +10,7 @@ type CustomData = {
 }
 
 const custom_data: CustomData = {
+  eligible_region: "",
   series_id: "",
   season_id: "",
   episode_id: "",
@@ -60,6 +62,7 @@ const onResponse = (xhr: XMLHttpRequest) => {
     const data = obj["data"][0]
     const episode_metadata = data["episode_metadata"]
     
+    custom_data["eligible_region"] = episode_metadata["eligible_region"]
     custom_data["series_id"] = episode_metadata["series_id"]
     custom_data["season_id"] = episode_metadata["season_id"]
     custom_data["episode_id"] = data["id"]
