@@ -59,15 +59,15 @@ const onResponse = (xhr: XMLHttpRequest) => {
     url?.pathname.startsWith("/content/v2/cms/objects/")
   ) {
     const obj = JSON.parse(xhr.responseText)
-    const data = obj["data"][0]
-    const episode_metadata = data["episode_metadata"]
+    const data = obj?.data?.at(0) ?? {}
+    const episode_metadata = data?.episode_metadata ?? {}
     
-    custom_data["eligible_region"] = episode_metadata["eligible_region"]
-    custom_data["series_id"] = episode_metadata["series_id"]
-    custom_data["season_id"] = episode_metadata["season_id"]
-    custom_data["episode_id"] = data["id"]
-    custom_data["thumbnail"] = data["images"]["thumbnail"][0].at(-1)["source"]
-    custom_data["premium_available_date"] = episode_metadata["premium_available_date"]
+    custom_data["eligible_region"] = episode_metadata?.eligible_region ?? ""
+    custom_data["series_id"] = episode_metadata?.series_id ?? ""
+    custom_data["season_id"] = episode_metadata?.season_id ?? ""
+    custom_data["episode_id"] = data?.id ?? ""
+    custom_data["thumbnail"] = data?.images?.thumbnail?.at(0)?.at(-1)?.source ?? ""
+    custom_data["premium_available_date"] = episode_metadata?.premium_available_date ?? ""
   }
 }
 
