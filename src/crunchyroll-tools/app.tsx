@@ -27,7 +27,23 @@ const buildRow = (table: Element, el: Element, data: CustomData) => {
     const desc = clone.querySelector("[data-t=details-table-description]")
     if (!col || !desc) return
     col.textContent = k
-    desc.textContent = v
+    switch (k) {
+      case "thumbnail": {
+        const a = document.createElement("a")
+        a.href = v
+        a.textContent = "link"
+        desc.textContent = ""
+        desc.appendChild(a)
+        break
+      }
+      case "premium_available_date": {
+        const d = new Date(v)
+        desc.textContent = d.toLocaleString()
+        break
+      }
+      default:
+        desc.textContent = v
+    }
     table.appendChild(clone)
   }
 }
