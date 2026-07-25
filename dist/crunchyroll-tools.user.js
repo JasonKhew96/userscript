@@ -3,7 +3,7 @@
 // @match       *://www.crunchyroll.com/*
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
-// @version     0.3
+// @version     0.4
 // @author      JasonKhew96
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/crunchyroll-tools.user.js
 // @grant       unsafeWindow
