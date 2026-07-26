@@ -1,0 +1,5 @@
+/* Preflights are needed for default values of variables */
+
+.list {
+  @apply m-2 pl-2;
+}

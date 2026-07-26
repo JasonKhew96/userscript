@@ -1,0 +1,1 @@
+declare function GM_lock(tag: string, func: function): Promise;

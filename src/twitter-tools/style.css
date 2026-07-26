@@ -1,0 +1,11 @@
+/* global css */
+/* Note: might conflict with existing styles if not in shadow DOM */
+
+.tools-highlight {
+  display: inline-block;
+  background: yellow;
+  color: black;
+  border-radius: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+}

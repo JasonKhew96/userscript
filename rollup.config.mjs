@@ -19,6 +19,8 @@ const entries = fs.readdirSync("./src/").filter((filename) => filename != "types
   return map
 }, {})
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export default defineConfig(
   Object.entries(entries).map(([name, entry]) => ({
     input: entry,
@@ -42,7 +44,7 @@ export default defineConfig(
         exclude: 'node_modules/**',
         extensions,
       }),
-      terser(),
+      isProduction && terser(),
       replacePlugin({
         values: {
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
