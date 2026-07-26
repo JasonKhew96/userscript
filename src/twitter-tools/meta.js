@@ -12,7 +12,7 @@
 // @grant       GM_addValueChangeListener
 // @grant       GM_removeValueChangeListener
 // @grant       GM_addStyle
-// @version     0.1
+// @version     0.2
 // @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/twitter-tools.user.js
 // ==/UserScript==
