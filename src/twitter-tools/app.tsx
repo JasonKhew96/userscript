@@ -213,7 +213,7 @@ xhr_proto.send = GMCompat.export(new_xhr_send)
 const processSpan = (span: HTMLSpanElement) => {
   if (span.childElementCount > 0) return
   const regex =
-    /(総?作画?監督?|第?(2|２|二)原画?|原画|コンテ|演出|脚本|担当|美術|制作|カット|レイアウト|key animat(or|ion)|\bcuts?\b|\bgenga\b|\bnigen\b|\blo\b|sakkan|layouts?)/gi
+    /(総?作画?監督?|第?(2|２|二)原画?|原画|コンテ|演出|脚本|担当|美術|制作|仕上|カット|レイアウト|key animat(or|ion)|\bcuts?\b|\bgenga\b|\bnigen\b|\blo\b|sakkan|layouts?)/gi
   if (!regex.test(span.textContent)) return
   const el = document.createElement("span")
   el.classList.add("tools-highlight")
