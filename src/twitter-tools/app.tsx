@@ -284,6 +284,23 @@ VM.observe(document.head, () => {
   loadMemberLists()
 })
 
+document.addEventListener("copy", function(event) {
+  const textSelection = document.getSelection()?.toString();
+  if (!textSelection) return
+  if (!URL.canParse(textSelection)) return
+  const url = URL.parse(textSelection)
+  if (!url) return
+  if (url.hostname != "x.com") return
+  const re = /^\/\S+\/status\/(\d+)$/
+  const match = url.pathname.match(re)
+  if (!match) return
+  const snowflakeId = match.at(1)
+  if (!snowflakeId) return
+  if (!event.clipboardData) return
+  event.clipboardData.setData("text/plain", snowflakeId)
+  event.preventDefault()
+})
+
 function PanelMain() {
   return (
     <ul class={styles["list"]}>
