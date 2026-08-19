@@ -111,3 +111,48 @@ function new_xhr_send(
 }
 
 xhr_proto.send = GMCompat.export(new_xhr_send)
+
+const backup_fetch = GMCompat.unsafeWindow.fetch
+
+async function new_fetch(input: RequestInfo | URL, init?: RequestInit) {
+  const response = await backup_fetch(input, init)
+  const responseClone = response.clone()
+  if (typeof input !== "string") return response
+  const url = URL.parse(input)
+  if (
+    url?.pathname.startsWith("/playback/v3/") &&
+    url?.pathname.endsWith("/play")
+  ) {
+    const obj = await responseClone.json().catch(() => responseClone.text())
+    const subtitles: { [key: string]: any } = obj?.subtitles ?? {}
+
+    const table = document.querySelector(".languages-table-details")
+    const el = table?.firstElementChild
+    if (!el) return response
+    const clone = el.cloneNode(true)
+    if (!(clone instanceof HTMLDivElement)) return response
+    delete clone.dataset["t"]
+    const col = clone.querySelector("[data-t=details-table-column-name]")
+    const desc = clone.querySelector("[data-t=details-table-description]")
+    if (!col || !desc) return response
+    col.textContent = "subtitles"
+    desc.innerHTML = ""
+
+    for (const [k, v] of Object.entries(subtitles)) {
+      if (!v?.url) continue
+      const u = URL.parse(v?.url)
+      const filename = u?.pathname.split("/").at(-1)
+      const re = /^subtitle-\S+-(\d+)\.ass$/
+      const matches = filename?.match(re)
+      if (!matches) continue
+      const d = new Date(parseInt(matches[1]) * 1000)
+      const p = document.createElement("p")
+      p.style = "font-family:monospace;"
+      p.textContent = `${k} ${d.toLocaleString()}`
+      desc.appendChild(p)
+    }
+    table.appendChild(clone)
+  }
+  return response
+}
+unsafeWindow.fetch = GMCompat.export(new_fetch)
