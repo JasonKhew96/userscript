@@ -142,7 +142,7 @@ async function new_fetch(input: RequestInfo | URL, init?: RequestInit) {
       if (!v?.url) continue
       const u = URL.parse(v?.url)
       const filename = u?.pathname.split("/").at(-1)
-      const re = /^subtitle-\S+-(\d+)\.ass$/
+      const re = /^subtitle-\S+-(\d+)\.\S+$/
       const matches = filename?.match(re)
       if (!matches) continue
       const d = new Date(parseInt(matches[1]) * 1000)
