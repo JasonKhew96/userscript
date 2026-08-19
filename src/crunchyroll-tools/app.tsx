@@ -1,4 +1,7 @@
 import VM from '@violentmonkey/dom'
+import globalCss from './style.css';
+
+GM_addStyle(globalCss)
 
 type CustomData = {
   eligible_region: string
@@ -126,8 +129,8 @@ async function new_fetch(input: RequestInfo | URL, init?: RequestInit) {
     const obj = await responseClone.json().catch(() => responseClone.text())
     const subtitles: { [key: string]: any } = obj?.subtitles ?? {}
 
-    const table = document.querySelector(".languages-table-details")
-    const el = table?.firstElementChild
+    const tableParent = document.querySelector(".languages-table-details")
+    const el = tableParent?.firstElementChild
     if (!el) return response
     const clone = el.cloneNode(true)
     if (!(clone instanceof HTMLDivElement)) return response
@@ -138,20 +141,28 @@ async function new_fetch(input: RequestInfo | URL, init?: RequestInit) {
     col.textContent = "subtitles"
     desc.innerHTML = ""
 
-    for (const [k, v] of Object.entries(subtitles)) {
+    const table = document.createElement("table")
+
+    for (const v of Object.values(subtitles)) {
       if (!v?.url) continue
-      const u = URL.parse(v?.url)
+      const u = URL.parse(v.url)
       const filename = u?.pathname.split("/").at(-1)
+      if (!filename) continue
       const re = /^subtitle-\S+-(\d+)\.\S+$/
       const matches = filename?.match(re)
       if (!matches) continue
       const d = new Date(parseInt(matches[1]) * 1000)
-      const p = document.createElement("p")
-      p.style = "font-family:monospace;"
-      p.textContent = `${k} ${d.toLocaleString()}`
-      desc.appendChild(p)
+      const p1 = document.createElement("p")
+      p1.classList.add("sub-monospace")
+      p1.textContent = filename
+      desc.appendChild(p1)
+      const p2 = document.createElement("p")
+      p2.classList.add("sub-monospace")
+      p2.textContent = d.toLocaleString()
+      desc.appendChild(p2)
     }
-    table.appendChild(clone)
+    desc.appendChild(table)
+    tableParent.appendChild(clone)
   }
   return response
 }
