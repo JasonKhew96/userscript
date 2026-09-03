@@ -21,6 +21,26 @@ const custom_data: CustomData = {
   thumbnail: "",
 }
 
+type CustomData2 = {
+  season_title: string
+  episode: string
+}
+
+const custom_data_2: CustomData2 = {
+  season_title: "",
+  episode: "",
+}
+
+const normalizeEpisode = (episode: string) => {
+  try {
+    parseInt(episode)
+    return episode.padStart(2, '0')
+  } catch {
+    // do nothing
+  }
+  return episode
+}
+
 const buildRow = (table: Element, el: Element, data: CustomData) => {
   for (const [k, v] of Object.entries(data)) {
     const clone = el.cloneNode(true)
@@ -87,6 +107,9 @@ const onResponse = (xhr: XMLHttpRequest) => {
     custom_data["episode_id"] = data?.id ?? ""
     custom_data["thumbnail"] = data?.images?.thumbnail?.at(0)?.at(-1)?.source ?? ""
     custom_data["premium_available_date"] = episode_metadata?.premium_available_date ?? ""
+
+    custom_data_2["season_title"] = episode_metadata?.season_title ?? ""
+    custom_data_2["episode"] = episode_metadata?.episode ?? ""
   }
 }
 
@@ -148,13 +171,34 @@ async function new_fetch(input: RequestInfo | URL, init?: RequestInit) {
       const u = URL.parse(v.url)
       const filename = u?.pathname.split("/").at(-1)
       if (!filename) continue
-      const re = /^subtitle-\S+-(\d+)\.\S+$/
+      const re = /^subtitle-\S+-(\d+)\.(\S+)$/
       const matches = filename?.match(re)
       if (!matches) continue
       const d = new Date(parseInt(matches[1]) * 1000)
       const p1 = document.createElement("p")
-      p1.classList.add("sub-monospace")
+      p1.classList.add("sub-download")
       p1.textContent = filename
+
+      p1.onclick = async () => {
+        try {
+          const language = v?.language || "unk"
+          const newFilename = `${custom_data_2["season_title"]}_${normalizeEpisode(custom_data_2["episode"])}_${language}.${matches[2]}`
+
+          const response = await fetch(v.url)
+          const blob = await response.blob()
+          const blobUrl = window.URL.createObjectURL(blob)
+          const link = document.createElement("a")
+          link.href = blobUrl
+          link.download = newFilename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          window.URL.revokeObjectURL(blobUrl)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
       desc.appendChild(p1)
       const p2 = document.createElement("p")
       p2.classList.add("sub-monospace")

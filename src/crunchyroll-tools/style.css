@@ -1,5 +1,10 @@
 /* global css */
 /* Note: might conflict with existing styles if not in shadow DOM */
+.sub-download {
+    font-family: monospace;
+    cursor: pointer;
+}
+
 .sub-monospace {
     font-family: monospace;
 }
