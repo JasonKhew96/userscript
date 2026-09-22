@@ -5,7 +5,7 @@
 // @require     https://unpkg.com/gm-compat@1.1.0
 // @require     https://cdn.jsdelivr.net/npm/@violentmonkey/dom@2
 // @grant       unsafeWindow
-// @version     0.8
+// @version     0.9
 // @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/crunchyroll-tools.user.js
 // ==/UserScript==

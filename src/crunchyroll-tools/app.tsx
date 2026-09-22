@@ -1,6 +1,19 @@
 import VM from "@violentmonkey/dom"
 import globalCss from "./style.css"
 
+function locale2str(locale: string): string {
+  const currentLang = navigator.language.indexOf("-")
+    ? navigator.language.split("-")[0]
+    : navigator.language
+  if (locale.indexOf("-") > 0) {
+    const splits = locale.split("-")
+    return `${new Intl.DisplayNames([currentLang], { type: "language" }).of(splits[0])} (${new Intl.DisplayNames([currentLang], { type: "region" }).of(splits[1])})`
+  }
+  return (
+    new Intl.DisplayNames([currentLang], { type: "language" }).of(locale) ?? ""
+  )
+}
+
 function onMain() {
   GM_addStyle(globalCss)
 
@@ -177,18 +190,22 @@ function onMain() {
         const u = URL.parse(v.url)
         const filename = u?.pathname.split("/").at(-1)
         if (!filename) continue
-        const re = /^subtitle-\S+-(\d+)\.(\S+)$/
+        const re = /^subtitle(-\S+-(\d+))?\.(\S+)$/
+        // https://vod-fy-mod.crunchyrollcdn.com/static/majin/e00378795a00378807jajp/clean/subtitles/enus/20260820_225123/subtitle.ass?t=exp=1790108771~acl=/static/majin/e00378795a00378807jajp/clean/subtitles/enus/20260820_225123/subtitle.ass~hmac=ab24ea77856258131a4a0558ac12e5ac1b3ec924245240506532a90add970530
         const matches = filename?.match(re)
         if (!matches) continue
-        const d = new Date(parseInt(matches[1]) * 1000)
+        let d: Date | undefined
+        if (matches[2] != undefined) {
+          d = new Date(parseInt(matches[1]) * 1000)
+        }
         const p1 = document.createElement("p")
         p1.classList.add("sub-download")
-        p1.textContent = filename
+        p1.textContent = locale2str(v.language)
 
         p1.onclick = async () => {
           try {
             const language = v?.language || "unk"
-            const newFilename = `${custom_data_2["season_title"]}_${normalizeEpisode(custom_data_2["episode"])}_${language}.${matches[2]}`
+            const newFilename = `${custom_data_2["season_title"]}_${normalizeEpisode(custom_data_2["episode"])}_${language}.${matches[3]}`
 
             const response = await fetch(v.url)
             const blob = await response.blob()
@@ -206,10 +223,12 @@ function onMain() {
         }
 
         desc.appendChild(p1)
-        const p2 = document.createElement("p")
-        p2.classList.add("sub-monospace")
-        p2.textContent = d.toLocaleString()
-        desc.appendChild(p2)
+        if (d !== undefined) {
+          const p2 = document.createElement("p")
+          p2.classList.add("sub-monospace")
+          p2.textContent = d.toLocaleString()
+          desc.appendChild(p2)
+        }
       }
       desc.appendChild(table)
       tableParent.appendChild(clone)
@@ -220,14 +239,14 @@ function onMain() {
 }
 
 function onImgSrv(url: URL) {
-  if (!url.pathname.startsWith('/cdn-cgi/image/')) return
-  url.pathname = url.pathname.split('/').slice(4).join('/')
+  if (!url.pathname.startsWith("/cdn-cgi/image/")) return
+  url.pathname = url.pathname.split("/").slice(4).join("/")
   document.location.href = url.toString()
 }
 
 const currentHref = new URL(document.location.href)
-if (currentHref.hostname === 'www.crunchyroll.com') {
+if (currentHref.hostname === "www.crunchyroll.com") {
   onMain()
-} else if (currentHref.hostname === 'imgsrv.crunchyroll.com') {
+} else if (currentHref.hostname === "imgsrv.crunchyroll.com") {
   onImgSrv(currentHref)
 }
