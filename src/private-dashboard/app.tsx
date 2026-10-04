@@ -20,7 +20,7 @@ type Item = {
 
 function SearchItem(props: any) {
   return (
-    <div onclick={() => props.onSelect(props.link)}>
+    <div onclick={() => props.onSelect(props.link, props.title)}>
       <div>{props.title}</div>
       <div>{props.title_original}</div>
       <div>{props.air_date}</div>
@@ -245,35 +245,58 @@ function PanelSearch() {
         break
     }
   }
-  const onSelect = (url: string) => {
-    let input: HTMLInputElement | null = null
+  const modifyDispatch = (input: HTMLInputElement | null, value: string) => {
+    if (input == null) return
+    input.value = value
+    input.dispatchEvent(new Event("input"))
+  }
+  const onSelect = (url: string, title: string) => {
     switch (platform()) {
       case "tmdb":
-        input = document.querySelector(
-          "input[placeholder^='https://www.themoviedb.org/tv/']",
+        modifyDispatch(
+          document.querySelector(
+            "input[placeholder^='https://www.themoviedb.org/tv/']",
+          ),
+          url,
         )
         break
       case "bgm":
-        input = document.querySelector(
-          "input[placeholder^='https://bgm.tv/subject/']",
+        modifyDispatch(
+          document.querySelector(
+            "input[placeholder^='https://bgm.tv/subject/']",
+          ),
+          url,
         )
         break
       case "mal":
-        input = document.querySelector(
-          "input[placeholder^='https://myanimelist.net/anime/']",
+        modifyDispatch(
+          document.querySelector("input[placeholder='例如 Yomi no Tsugai']"),
+          title,
+        )
+        modifyDispatch(
+          document.querySelector(
+            "input[placeholder='例如 Yomi no Tsugai Season 1']",
+          ),
+          title,
+        )
+        modifyDispatch(
+          document.querySelector(
+            "input[placeholder^='https://myanimelist.net/anime/']",
+          ),
+          url,
         )
         break
       case "anilist":
-        input = document.querySelector(
-          "input[placeholder^='https://anilist.co/anime/']",
+        modifyDispatch(
+          document.querySelector(
+            "input[placeholder^='https://anilist.co/anime/']",
+          ),
+          url,
         )
         break
       default:
         break
     }
-    if (!input) return
-    input.value = url
-    input.dispatchEvent(new Event("input"))
   }
   return (
     <div>
