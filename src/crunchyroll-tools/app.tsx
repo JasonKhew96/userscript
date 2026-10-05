@@ -196,7 +196,7 @@ function onMain() {
         if (!matches) continue
         let d: Date | undefined
         if (matches[2] != undefined) {
-          d = new Date(parseInt(matches[1]) * 1000)
+          d = new Date(parseInt(matches[2]) * 1000)
         }
         const p1 = document.createElement("p")
         p1.classList.add("sub-download")
