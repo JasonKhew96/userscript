@@ -246,9 +246,9 @@ function PanelSearch() {
         break
     }
   }
-  const modifyDispatch = (input: HTMLInputElement | null, value: string) => {
+  const modifyDispatch = (input: HTMLInputElement | null, value: string, maxLength: number = 0) => {
     if (input == null) return
-    input.value = value
+    input.value = maxLength > 0 ? value.slice(0, maxLength) : value
     input.dispatchEvent(new Event("input"))
   }
   const onSelect = (url: string, title: string) => {
@@ -273,6 +273,7 @@ function PanelSearch() {
         modifyDispatch(
           document.querySelector("input[placeholder='例如 Yomi no Tsugai']"),
           title,
+          47,
         )
         modifyDispatch(
           document.querySelector(

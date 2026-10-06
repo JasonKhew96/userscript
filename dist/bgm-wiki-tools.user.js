@@ -8,26 +8,4 @@
 // @grant       GM_addStyle
 // ==/UserScript==
 
-(function (VM) {
-'use strict';
-
-function _createForOfIteratorHelperLoose(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (t) return (t = t.call(r)).next.bind(t); if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) { t && (r = t); var o = 0; return function () { return o >= r.length ? { done: true } : { done: false, value: r[o++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
-function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
-GM_addStyle("\n:is(#scheduleWrap, #scheduleRangeEditorWrap, #scheduleInsertPreviewBody, #generateEpisodesPreviewBody) .schedule-platform-episode-grid {\n  grid-template-columns: minmax(32px, 64px) minmax(240px, 1.2fr) minmax(180px, 1fr);\n}\n");
-VM.observe(document.body, function (mutations) {
-  for (var _iterator = _createForOfIteratorHelperLoose(mutations), _step; !(_step = _iterator()).done;) {
-    var mutation = _step.value;
-    var target = mutation.target;
-    if (!(target instanceof HTMLDivElement)) continue;
-    if (target.id != "scheduleWrap") continue;
-    var onAirs = document.querySelectorAll(".f-onair-premiere");
-    for (var _iterator2 = _createForOfIteratorHelperLoose(onAirs), _step2; !(_step2 = _iterator2()).done;) {
-      var onAir = _step2.value;
-      if (!(onAir instanceof HTMLInputElement)) continue;
-      onAir.type = "datetime-local";
-    }
-  }
-});
-
-})(VM);
+!function(e){"use strict";function r(e,r){var n="undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(n)return(n=n.call(e)).next.bind(n);if(Array.isArray(e)||(n=function(e,r){if(e){if("string"==typeof e)return t(e,r);var n={}.toString.call(e).slice(8,-1);return"Object"===n&&e.constructor&&(n=e.constructor.name),"Map"===n||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?t(e,r):void 0}}(e))||r){n&&(e=n);var o=0;return function(){return o>=e.length?{done:!0}:{done:!1,value:e[o++]}}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function t(e,r){(null==r||r>e.length)&&(r=e.length);for(var t=0,n=Array(r);t<r;t++)n[t]=e[t];return n}GM_addStyle("\n:is(#scheduleWrap, #scheduleRangeEditorWrap, #scheduleInsertPreviewBody, #generateEpisodesPreviewBody) .schedule-platform-episode-grid {\n  grid-template-columns: minmax(32px, 64px) minmax(240px, 1.2fr) minmax(180px, 1fr);\n}\n"),e.observe(document.body,function(e){for(var t,n=r(e);!(t=n()).done;){var o=t.value.target;if(o instanceof HTMLDivElement&&"scheduleWrap"==o.id)for(var a,i=r(document.querySelectorAll(".f-onair-premiere"));!(a=i()).done;){var l=a.value;l instanceof HTMLInputElement&&(l.type="datetime-local")}}})}(VM);
