@@ -17,4 +17,950 @@
 // @grant       unsafeWindow
 // ==/UserScript==
 
-!function(e,t){"use strict";const n=Symbol("solid-track"),r={equals:(e,t)=>e===t};let l=M;const o=1,i=2,s={owned:null,cleanups:null,context:null,owner:null};var a=null;let u=null,c=null,f=null,d=null,p=0;function v(e,t){const n=c,r=a,l=0===e.length,o=void 0===t?r:t,i=l?s:{owned:null,cleanups:null,context:o?o.context:null,owner:o},u=l?e:()=>e(()=>g(()=>E(i)));a=i,c=null;try{return A(u,!0)}finally{c=n,a=r}}function h(e,t){const n={value:e,observers:null,observerSlots:null,comparator:(t=t?Object.assign({},r,t):r).equals||void 0};return[b.bind(n),e=>("function"==typeof e&&(e=e(n.value)),y(n,e))]}function m(e,t,n){S(_(e,t,!1,o))}function g(e){if(null===c)return e();const t=c;c=null;try{return e()}finally{c=t}}function b(){if(this.sources&&this.state)if(this.state===o)S(this);else{const e=f;f=null,A(()=>x(this),!1),f=e}if(c){const e=this.observers;if(!e||e[e.length-1]!==c){const t=e?e.length:0;c.sources?(c.sources.push(this),c.sourceSlots.push(t)):(c.sources=[this],c.sourceSlots=[t]),e?(e.push(c),this.observerSlots.push(c.sources.length-1)):(this.observers=[c],this.observerSlots=[c.sources.length-1])}}return this.value}function y(e,t,n){let r=e.value;return e.comparator&&e.comparator(r,t)||(e.value=t,e.observers&&e.observers.length&&A(()=>{for(let t=0;t<e.observers.length;t+=1){const n=e.observers[t],r=u&&u.running;r&&u.disposed.has(n),(r?n.tState:n.state)||(n.pure?f.push(n):d.push(n),n.observers&&L(n)),r||(n.state=o)}if(f.length>1e6)throw f=[],new Error},!1)),t}function S(e){if(!e.fn)return;E(e);const t=p;!function(e,t,n){let r;const l=a,i=c;c=a=e;try{r=e.fn(t)}catch(t){return e.pure&&(e.state=o,e.owned&&e.owned.forEach(E),e.owned=null),e.updatedAt=n+1,C(t)}finally{c=i,a=l}(!e.updatedAt||e.updatedAt<=n)&&(null!=e.updatedAt&&"observers"in e?y(e,r):e.value=r,e.updatedAt=n)}(e,e.value,t)}function _(e,t,n,r=o,l){const i={fn:e,state:r,updatedAt:null,owned:null,sources:null,sourceSlots:null,cleanups:null,value:t,owner:a,context:a?a.context:null,pure:n};return null===a||a!==s&&(a.owned?a.owned.push(i):a.owned=[i]),i}function w(e){if(0===e.state)return;if(e.state===i)return x(e);if(e.suspense&&g(e.suspense.inFallback))return e.suspense.effects.push(e);const t=[e];for(;(e=e.owner)&&(!e.updatedAt||e.updatedAt<p);)e.state&&t.push(e);for(let n=t.length-1;n>=0;n--)if((e=t[n]).state===o)S(e);else if(e.state===i){const n=f;f=null,A(()=>x(e,t[0]),!1),f=n}}function A(e,t){if(f)return e();let n=!1;t||(f=[]),d?n=!0:d=[],p++;try{const t=e();return function(e){f&&(M(f),f=null);if(e)return;const t=d;d=null,t.length&&A(()=>l(t),!1)}(n),t}catch(e){n||(d=null),f=null,C(e)}}function M(e){for(let t=0;t<e.length;t++)w(e[t])}function x(e,t){e.state=0;for(let n=0;n<e.sources.length;n+=1){const r=e.sources[n];if(r.sources){const e=r.state;e===o?r!==t&&(!r.updatedAt||r.updatedAt<p)&&w(r):e===i&&x(r,t)}}}function L(e){for(let t=0;t<e.observers.length;t+=1){const n=e.observers[t];n.state||(n.state=i,n.pure?f.push(n):d.push(n),n.observers&&L(n))}}function E(e){let t;if(e.sources)for(;e.sources.length;){const t=e.sources.pop(),n=e.sourceSlots.pop(),r=t.observers;if(r&&r.length){const e=r.pop(),l=t.observerSlots.pop();n<r.length&&(e.sourceSlots[l]=n,r[n]=e,t.observerSlots[n]=l)}}if(e.tOwned){for(t=e.tOwned.length-1;t>=0;t--)E(e.tOwned[t]);delete e.tOwned}if(e.owned){for(t=e.owned.length-1;t>=0;t--)E(e.owned[t]);e.owned=null}if(e.cleanups){for(t=e.cleanups.length-1;t>=0;t--)e.cleanups[t]();e.cleanups=null}e.state=0}function C(e,t=a){const n=function(e){return e instanceof Error?e:new Error("string"==typeof e?e:"Unknown error",{cause:e})}(e);throw n}const T=Symbol("fallback");function k(e){for(let t=0;t<e.length;t++)e[t]()}function G(e,t,r={}){let l=[],o=[],i=[],s=0,u=t.length>1?[]:null;var c;return c=()=>k(i),null===a||(null===a.cleanups?a.cleanups=[c]:a.cleanups.push(c)),()=>{let a,c,f=e()||[],d=f.length;return f[n],g(()=>{let e,t,n,h,m,g,b,y,S;if(0===d)0!==s&&(k(i),i=[],l=[],o=[],s=0,u&&(u=[])),r.fallback&&(l=[T],o[0]=v(e=>(i[0]=e,r.fallback())),s=1);else if(0===s){for(o=new Array(d),c=0;c<d;c++)l[c]=f[c],o[c]=v(p);s=d}else{for(n=new Array(d),h=new Array(d),u&&(m=new Array(d)),g=0,b=Math.min(s,d);g<b&&l[g]===f[g];g++);for(b=s-1,y=d-1;b>=g&&y>=g&&l[b]===f[y];b--,y--)n[y]=o[b],h[y]=i[b],u&&(m[y]=u[b]);for(e=new Map,t=new Array(y+1),c=y;c>=g;c--)S=f[c],a=e.get(S),t[c]=void 0===a?-1:a,e.set(S,c);for(a=g;a<=b;a++)S=l[a],c=e.get(S),void 0!==c&&-1!==c?(n[c]=o[a],h[c]=i[a],u&&(m[c]=u[a]),c=t[c],e.set(S,c)):i[a]();for(c=g;c<d;c++)c in n?(o[c]=n[c],i[c]=h[c],u&&(u[c]=m[c],u[c](c))):o[c]=v(p);o=o.slice(0,s=d),l=f.slice(0)}return o});function p(e){if(i[c]=e,u){const[e,n]=h(c);return u[c]=n,t(f[c],e)}return t(f[c])}}}function N(e){const t="fallback"in e&&{fallback:()=>e.fallback};return function(e,t,n){n=n?Object.assign({},r,n):r;const l=_(e,t,!0,0);return l.observers=null,l.observerSlots=null,l.comparator=n.equals||void 0,S(l),b.bind(l)}(G(()=>e.each,e.children,t||void 0))}function O(e,t,n,r){let l;const o=()=>(l||(l=(()=>{const t=document.createElement("template");return t.innerHTML=e,t.content.firstChild})())).cloneNode(!0);return o.cloneNode=o,o}function V(e,t,n,r){if(void 0===n||r||(r=[]),"function"!=typeof t)return q(e,t,r,n);m(r=>q(e,t(),r,n),r)}function q(e,t,n,r,l){for(;"function"==typeof n;)n=n();if(t===n)return n;const o=typeof t,i=void 0!==r;if(e=i&&n[0]&&n[0].parentNode||e,"string"===o||"number"===o){if("number"===o&&(t=t.toString())===n)return n;if(i){let l=n[0];l&&3===l.nodeType?l.data!==t&&(l.data=t):l=document.createTextNode(t),n=H(e,n,r,l)}else n=""!==n&&"string"==typeof n?e.firstChild.data=t:e.textContent=t}else if(null==t||"boolean"===o)n=H(e,n,r);else{if("function"===o)return m(()=>{let l=t();for(;"function"==typeof l;)l=l();n=q(e,l,n,r)}),()=>n;if(Array.isArray(t)){const o=[],s=n&&Array.isArray(n);if(P(o,t,n,l))return m(()=>n=q(e,o,n,r,!0)),()=>n;if(0===o.length){if(n=H(e,n,r),i)return n}else s?0===n.length?R(e,o,r):function(e,t,n){let r=n.length,l=t.length,o=r,i=0,s=0,a=t[l-1].nextSibling,u=null;for(;i<l||s<o;)if(t[i]!==n[s]){for(;t[l-1]===n[o-1];)l--,o--;if(l===i){const t=o<r?s?n[s-1].nextSibling:n[o-s]:a;for(;s<o;)e.insertBefore(n[s++],t)}else if(o===s)for(;i<l;)u&&u.has(t[i])||t[i].remove(),i++;else if(t[i]===n[o-1]&&n[s]===t[l-1]){const r=t[--l].nextSibling;e.insertBefore(n[s++],t[i++].nextSibling),e.insertBefore(n[--o],r),t[l]=n[o]}else{if(!u){u=new Map;let e=s;for(;e<o;)u.set(n[e],e++)}const r=u.get(t[i]);if(null!=r)if(s<r&&r<o){let a,c=i,f=1;for(;++c<l&&c<o&&null!=(a=u.get(t[c]))&&a===r+f;)f++;if(f>r-s){const l=t[i];for(;s<r;)e.insertBefore(n[s++],l)}else e.replaceChild(n[s++],t[i++])}else i++;else t[i++].remove()}}else i++,s++}(e,n,o):(n&&H(e),R(e,o));n=o}else if(t.nodeType){if(Array.isArray(n)){if(i)return n=H(e,n,r,t);H(e,n,null,t)}else null!=n&&""!==n&&e.firstChild?e.replaceChild(t,e.firstChild):e.appendChild(t);n=t}}return n}function P(e,t,n,r){let l=!1;for(let o=0,i=t.length;o<i;o++){let i,s=t[o],a=n&&n[e.length];if(null==s||!0===s||!1===s);else if("object"==(i=typeof s)&&s.nodeType)e.push(s);else if(Array.isArray(s))l=P(e,s,a)||l;else if("function"===i)if(r){for(;"function"==typeof s;)s=s();l=P(e,Array.isArray(s)?s:[s],Array.isArray(a)?a:[a])||l}else e.push(s),l=!0;else{const t=String(s);a&&3===a.nodeType&&a.data===t?e.push(a):e.push(document.createTextNode(t))}}return l}function R(e,t,n=null){for(let r=0,l=t.length;r<l;r++)e.insertBefore(t[r],n)}function H(e,t,n,r){if(void 0===n)return e.textContent="";const l=r||document.createTextNode("");if(t.length){let r=!1;for(let o=t.length-1;o>=0;o--){const i=t[o];if(l!==i){const t=i.parentNode===e;r||o?t&&i.remove():t?e.replaceChild(l,i):e.insertBefore(l,n)}else r=!0}}else e.insertBefore(l,n);return[l]}var $="style-module_list__qe8IL",j=O("<ul>"),D=O("<li>");function I(e,t){var n="undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"];if(n)return(n=n.call(e)).next.bind(n);if(Array.isArray(e)||(n=function(e,t){if(e){if("string"==typeof e)return J(e,t);var n={}.toString.call(e).slice(8,-1);return"Object"===n&&e.constructor&&(n=e.constructor.name),"Map"===n||"Set"===n?Array.from(e):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?J(e,t):void 0}}(e))||t){n&&(e=n);var r=0;return function(){return r>=e.length?{done:!0}:{done:!1,value:e[r++]}}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}function J(e,t){(null==t||t>e.length)&&(t=e.length);for(var n=0,r=Array(t);n<t;n++)r[n]=e[n];return r}GM_addStyle(".tools-highlight{background:#ff0;border-radius:4px;color:#000;display:inline-block;padding-left:2px;padding-right:2px}");var U=function(){for(var e,t=arguments.length,n=new Array(t),r=0;r<t;r++)n[r]=arguments[r];(e=console).debug.apply(e,["twitter-tools:"].concat(n))},B="",W=h([]),F=W[0],X=W[1],z=function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];GM_lock("lock_list",function(){var t=GM_getValue("member_lists",{});t[e]||(t[e]=[]);for(var r=0,l=n;r<l.length;r++){var o=l[r];t[e].includes(o)||t[e].push(o)}GM_setValue("member_lists",t)})},K=function(e){var t,n=null!=(t=e[B])?t:[],r=GM_getValue("lists",{});X(null==n?void 0:n.flatMap(function(e){return r[e]})),n.length>0?re.show():re.hide()};GM_addValueChangeListener("member_lists",function(e,t,n){K(n)});var Q=function(){var e=GM_getValue("member_lists",{});K(e)},Y=function(){B="",X([]),re.hide()},Z=GMCompat.unsafeWindow.XMLHttpRequest.prototype,ee=Z.send,te=function(e){var t=e.getResponseHeader("Content-Type");if(null!=t&&t.includes("application/json")){var n=URL.parse(e.responseURL);if(n){if(/^\/i\/api\/graphql\/\S+\/CreateList$/.test(n.pathname)){var r,l=JSON.parse(e.response),o=null==l||null==(r=l.data)?void 0:r.list;!function(e,t){GM_lock("lock_list",function(){var n=GM_getValue("lists",{});n[e]=t,GM_setValue("lists",n)})}(null==o?void 0:o.id_str,null==o?void 0:o.name)}if(/^\/i\/api\/graphql\/\S+\/ListAddMember$/.test(n.pathname)){var i;if(!B)return;var s=JSON.parse(e.response),a=null==s||null==(i=s.data)||null==(i=i.list)?void 0:i.id_str;if(!a)return;z(B,a),Q()}if(/^\/i\/api\/graphql\/\S+\/ListRemoveMember$/.test(n.pathname)){var u;if(U(B),!B)return;var c=JSON.parse(e.response),f=null==c||null==(u=c.data)||null==(u=u.list)?void 0:u.id_str;if(U(f),!f)return;!function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];GM_lock("lock_list",function(){for(var t=GM_getValue("member_lists",{}),r=0,l=n;r<l.length;r++){var o=l[r],i=t[e].indexOf(o);i>-1&&t[e].splice(i,1)}GM_setValue("member_lists",t)})}(B,f),Q()}if(/^\/i\/api\/1\.1\/lists\/memberships\.json$/.test(n.pathname)){var d=JSON.parse(e.response),p=null==d?void 0:d.lists;if(!p)return;var v=n.searchParams.get("user_id");if(!v)return;var h=null==p?void 0:p.flatMap(function(e){return null==e?void 0:e.id_str});z.apply(void 0,[v].concat(h))}if(/^\/i\/api\/graphql\/\S+\/ListMembers$/.test(n.pathname)){var m,g,b,y=JSON.parse(e.response),S=n.searchParams.get("variables");if(!S)return;var _=null==(m=JSON.parse(S))?void 0:m.listId;if(!_)return;var w=null==y||null==(g=y.data)||null==(g=g.list)||null==(g=g.members_timeline)||null==(g=g.timeline)?void 0:g.instructions;if(!w)return;var A=null==w||null==(b=w.find(function(e){return"TimelineAddEntries"==(null==e?void 0:e.type)}))?void 0:b.entries;if(!A)return;for(var M,x=null==A?void 0:A.filter(function(e){var t;return null==e||null==(t=e.entryId)?void 0:t.startsWith("user-")}),L=[],E=I(x);!(M=E()).done;){var C,T=M.value,k=null==T||null==(C=T.content)||null==(C=C.itemContent)||null==(C=C.user_results)||null==(C=C.result)?void 0:C.rest_id;L.push(k)}!function(e,t){GM_lock("lock_list",function(){for(var n,r=GM_getValue("member_lists",{}),l=I(t);!(n=l()).done;){var o=n.value;r[o]||(r[o]=[]),r[o].includes(e)||r[o].push(e)}GM_setValue("member_lists",r)})}(_,L)}if(/^\/i\/api\/graphql\/\S+\/ListsManagementPageTimeline$/.test(n.pathname)){var G,N,O,V=JSON.parse(e.response),q=null==V||null==(G=V.data)||null==(G=G.viewer)||null==(G=G.list_management_timeline)||null==(G=G.timeline)?void 0:G.instructions;if(!q)return;var P=null==(N=q.filter(function(e){return"TimelineAddEntries"==(null==e?void 0:e.type)}))||null==(N=N.at(0))?void 0:N.entries;if(!P)return;var R=null==(O=P.filter(function(e){return"owned-subscribed-list-module-0"==(null==e?void 0:e.entryId)}))||null==(O=O.at(0))||null==(O=O.content)?void 0:O.items;if(!R)return;var H=null==R?void 0:R.flatMap(function(e){var t;return null==e||null==(t=e.item)||null==(t=t.itemContent)?void 0:t.list});GM_lock("lock_list",function(){for(var e,t=GM_getValue("lists",{}),n=I(H);!(e=n()).done;){var r=e.value,l=null==r?void 0:r.id_str,o=null==r?void 0:r.name;l&&o&&(t[l]=o)}GM_setValue("lists",t)})}}}};Z.send=GMCompat.export(function(e){var t=this.onreadystatechange;this.onreadystatechange=function(e){this.readyState===this.DONE&&this.responseURL&&200===this.status&&te(this),t&&t.call(this,e)},GMCompat.apply(this,ee,[e])});var ne=function(e){if(!(e.childElementCount>0)){var t=/(総?作画?監督?|第?(2|２|二)原画?|原画|コンテ|演出|脚本|担当|美術|背景|制作|仕上|動画?検査?|手伝い|参加|カット|レイアウト|key animat(or|ion)|\bcuts?\b|\bgenga\b|\bnigen\b|\blo\b|sakkan|layouts?|storyboards?|animation direction|\bpart\b|episode director)/gi;if(t.test(e.textContent)){var n=document.createElement("span");n.classList.add("tools-highlight"),n.innerText="REPLACE",e.innerHTML=e.innerHTML.replaceAll(t,n.outerHTML.replace("REPLACE","$$&"))}}};t.observe(document.body,function(e){for(var t,n=I(e);!(t=n()).done;){var r,l=t.value,o=l.target;if("characterData"==l.type&&"tweetText"==(null==(r=o.parentElement)||null==(r=r.parentElement)?void 0:r.dataset.testid)&&o.parentElement instanceof HTMLSpanElement)ne(o.parentElement);else if("childList"==l.type&&o instanceof HTMLElement){var i;if("tweetText"==o.dataset.testid)for(var s,a=I(l.addedNodes);!(s=a()).done;){var u=s.value;u instanceof HTMLSpanElement&&ne(u)}if(null!=(i=o.parentElement)&&null!=(i=i.ariaLabel)&&i.startsWith("Timeline: "))for(var c,f=I(l.addedNodes);!(c=f()).done;){var d=c.value;if(d instanceof HTMLDivElement)for(var p,v=I(d.querySelectorAll('[data-testid="tweetText"]'));!(p=v()).done;)for(var h,m=I(p.value.querySelectorAll("span"));!(h=m()).done;){var g=h.value;ne(g)}}}}},{characterData:!0}),t.observe(document.head,function(){var e,t=document.querySelector("script[data-testid=UserProfileSchema-test]");if(t){var n=JSON.parse(null==t?void 0:t.textContent);"ProfilePage"==n["@type"]&&"Person"==(null==n?void 0:n.mainEntity["@type"])?(B=null==n||null==(e=n.mainEntity)?void 0:e.identifier,Q()):Y()}else Y()}),document.addEventListener("copy",function(e){var t,n=null==(t=document.getSelection())?void 0:t.toString();if(n&&URL.canParse(n)){var r=URL.parse(n);if(r&&"x.com"==r.hostname){var l=r.pathname.match(/^\/\S+\/status\/(\d+)$/);if(l){var o=l.at(1);o&&e.clipboardData&&(e.clipboardData.setData("text/plain",o),e.preventDefault())}}}});var re=e.getPanel({style:".style-module_list__qe8IL{margin:.5rem;padding-left:.5rem}"});Object.assign(re.wrapper.style,{left:"8px",bottom:"8px"}),Object.assign(re.body.style,{borderRadius:"8px",padding:"4px"}),function(e,t,n,r={}){let l;v(r=>{l=r,t===document?e():V(t,e(),t.firstChild?null:void 0,n)},r.owner)}(function(){return V(n=j(),(e=N,t={get each(){return F()},children:function(e){return V(t=D(),e),t;var t}},g(()=>e(t||{})))),m(function(){return e=$,void(n.className=e);var e}),n;var e,t,n},re.body)}(VM,VM);
+(function (ui, VM) {
+'use strict';
+
+const IS_DEV = false;
+const equalFn = (a, b) => a === b;
+const $TRACK = Symbol("solid-track");
+const signalOptions = {
+  equals: equalFn
+};
+let runEffects = runQueue;
+const STALE = 1;
+const PENDING = 2;
+const UNOWNED = {
+  owned: null,
+  cleanups: null,
+  context: null,
+  owner: null
+};
+var Owner = null;
+let Transition = null;
+let ExternalSourceConfig = null;
+let Listener = null;
+let Updates = null;
+let Effects = null;
+let ExecCount = 0;
+function createRoot(fn, detachedOwner) {
+  const listener = Listener,
+    owner = Owner,
+    unowned = fn.length === 0,
+    current = detachedOwner === undefined ? owner : detachedOwner,
+    root = unowned ? UNOWNED : {
+      owned: null,
+      cleanups: null,
+      context: current ? current.context : null,
+      owner: current
+    },
+    updateFn = unowned ? fn : () => fn(() => untrack(() => cleanNode(root)));
+  Owner = root;
+  Listener = null;
+  try {
+    return runUpdates(updateFn, true);
+  } finally {
+    Listener = listener;
+    Owner = owner;
+  }
+}
+function createSignal(value, options) {
+  options = options ? Object.assign({}, signalOptions, options) : signalOptions;
+  const s = {
+    value,
+    observers: null,
+    observerSlots: null,
+    comparator: options.equals || undefined
+  };
+  const setter = value => {
+    if (typeof value === "function") {
+      value = value(s.value);
+    }
+    return writeSignal(s, value);
+  };
+  return [readSignal.bind(s), setter];
+}
+function createRenderEffect(fn, value, options) {
+  const c = createComputation(fn, value, false, STALE);
+  updateComputation(c);
+}
+function createMemo(fn, value, options) {
+  options = options ? Object.assign({}, signalOptions, options) : signalOptions;
+  const c = createComputation(fn, value, true, 0);
+  c.observers = null;
+  c.observerSlots = null;
+  c.comparator = options.equals || undefined;
+  updateComputation(c);
+  return readSignal.bind(c);
+}
+function untrack(fn) {
+  if (Listener === null) return fn();
+  const listener = Listener;
+  Listener = null;
+  try {
+    if (ExternalSourceConfig) ;
+    return fn();
+  } finally {
+    Listener = listener;
+  }
+}
+function onCleanup(fn) {
+  if (Owner === null) ;else if (Owner.cleanups === null) Owner.cleanups = [fn];else Owner.cleanups.push(fn);
+  return fn;
+}
+function readSignal() {
+  if (this.sources && (this.state)) {
+    if ((this.state) === STALE) updateComputation(this);else {
+      const updates = Updates;
+      Updates = null;
+      runUpdates(() => lookUpstream(this), false);
+      Updates = updates;
+    }
+  }
+  if (Listener) {
+    const observers = this.observers;
+    if (!observers || observers[observers.length - 1] !== Listener) {
+      const sSlot = observers ? observers.length : 0;
+      if (!Listener.sources) {
+        Listener.sources = [this];
+        Listener.sourceSlots = [sSlot];
+      } else {
+        Listener.sources.push(this);
+        Listener.sourceSlots.push(sSlot);
+      }
+      if (!observers) {
+        this.observers = [Listener];
+        this.observerSlots = [Listener.sources.length - 1];
+      } else {
+        observers.push(Listener);
+        this.observerSlots.push(Listener.sources.length - 1);
+      }
+    }
+  }
+  return this.value;
+}
+function writeSignal(node, value, isComp) {
+  let current = node.value;
+  if (!node.comparator || !node.comparator(current, value)) {
+    node.value = value;
+    if (node.observers && node.observers.length) {
+      runUpdates(() => {
+        for (let i = 0; i < node.observers.length; i += 1) {
+          const o = node.observers[i];
+          const TransitionRunning = Transition && Transition.running;
+          if (TransitionRunning && Transition.disposed.has(o)) ;
+          if (TransitionRunning ? !o.tState : !o.state) {
+            if (o.pure) Updates.push(o);else Effects.push(o);
+            if (o.observers) markDownstream(o);
+          }
+          if (!TransitionRunning) o.state = STALE;
+        }
+        if (Updates.length > 10e5) {
+          Updates = [];
+          if (IS_DEV) ;
+          throw new Error();
+        }
+      }, false);
+    }
+  }
+  return value;
+}
+function updateComputation(node) {
+  if (!node.fn) return;
+  cleanNode(node);
+  const time = ExecCount;
+  runComputation(node, node.value, time);
+}
+function runComputation(node, value, time) {
+  let nextValue;
+  const owner = Owner,
+    listener = Listener;
+  Listener = Owner = node;
+  try {
+    nextValue = node.fn(value);
+  } catch (err) {
+    if (node.pure) {
+      {
+        node.state = STALE;
+        node.owned && node.owned.forEach(cleanNode);
+        node.owned = null;
+      }
+    }
+    node.updatedAt = time + 1;
+    return handleError(err);
+  } finally {
+    Listener = listener;
+    Owner = owner;
+  }
+  if (!node.updatedAt || node.updatedAt <= time) {
+    if (node.updatedAt != null && "observers" in node) {
+      writeSignal(node, nextValue);
+    } else node.value = nextValue;
+    node.updatedAt = time;
+  }
+}
+function createComputation(fn, init, pure, state = STALE, options) {
+  const c = {
+    fn,
+    state: state,
+    updatedAt: null,
+    owned: null,
+    sources: null,
+    sourceSlots: null,
+    cleanups: null,
+    value: init,
+    owner: Owner,
+    context: Owner ? Owner.context : null,
+    pure
+  };
+  if (Owner === null) ;else if (Owner !== UNOWNED) {
+    {
+      if (!Owner.owned) Owner.owned = [c];else Owner.owned.push(c);
+    }
+  }
+  return c;
+}
+function runTop(node) {
+  if ((node.state) === 0) return;
+  if ((node.state) === PENDING) return lookUpstream(node);
+  if (node.suspense && untrack(node.suspense.inFallback)) return node.suspense.effects.push(node);
+  const ancestors = [node];
+  while ((node = node.owner) && (!node.updatedAt || node.updatedAt < ExecCount)) {
+    if (node.state) ancestors.push(node);
+  }
+  for (let i = ancestors.length - 1; i >= 0; i--) {
+    node = ancestors[i];
+    if ((node.state) === STALE) {
+      updateComputation(node);
+    } else if ((node.state) === PENDING) {
+      const updates = Updates;
+      Updates = null;
+      runUpdates(() => lookUpstream(node, ancestors[0]), false);
+      Updates = updates;
+    }
+  }
+}
+function runUpdates(fn, init) {
+  if (Updates) return fn();
+  let wait = false;
+  if (!init) Updates = [];
+  if (Effects) wait = true;else Effects = [];
+  ExecCount++;
+  try {
+    const res = fn();
+    completeUpdates(wait);
+    return res;
+  } catch (err) {
+    if (!wait) Effects = null;
+    Updates = null;
+    handleError(err);
+  }
+}
+function completeUpdates(wait) {
+  if (Updates) {
+    runQueue(Updates);
+    Updates = null;
+  }
+  if (wait) return;
+  const e = Effects;
+  Effects = null;
+  if (e.length) runUpdates(() => runEffects(e), false);
+}
+function runQueue(queue) {
+  for (let i = 0; i < queue.length; i++) runTop(queue[i]);
+}
+function lookUpstream(node, ignore) {
+  node.state = 0;
+  for (let i = 0; i < node.sources.length; i += 1) {
+    const source = node.sources[i];
+    if (source.sources) {
+      const state = source.state;
+      if (state === STALE) {
+        if (source !== ignore && (!source.updatedAt || source.updatedAt < ExecCount)) runTop(source);
+      } else if (state === PENDING) lookUpstream(source, ignore);
+    }
+  }
+}
+function markDownstream(node) {
+  for (let i = 0; i < node.observers.length; i += 1) {
+    const o = node.observers[i];
+    if (!o.state) {
+      o.state = PENDING;
+      if (o.pure) Updates.push(o);else Effects.push(o);
+      o.observers && markDownstream(o);
+    }
+  }
+}
+function cleanNode(node) {
+  let i;
+  if (node.sources) {
+    while (node.sources.length) {
+      const source = node.sources.pop(),
+        index = node.sourceSlots.pop(),
+        obs = source.observers;
+      if (obs && obs.length) {
+        const n = obs.pop(),
+          s = source.observerSlots.pop();
+        if (index < obs.length) {
+          n.sourceSlots[s] = index;
+          obs[index] = n;
+          source.observerSlots[index] = s;
+        }
+      }
+    }
+  }
+  if (node.tOwned) {
+    for (i = node.tOwned.length - 1; i >= 0; i--) cleanNode(node.tOwned[i]);
+    delete node.tOwned;
+  }
+  if (node.owned) {
+    for (i = node.owned.length - 1; i >= 0; i--) cleanNode(node.owned[i]);
+    node.owned = null;
+  }
+  if (node.cleanups) {
+    for (i = node.cleanups.length - 1; i >= 0; i--) node.cleanups[i]();
+    node.cleanups = null;
+  }
+  node.state = 0;
+}
+function castError(err) {
+  if (err instanceof Error) return err;
+  return new Error(typeof err === "string" ? err : "Unknown error", {
+    cause: err
+  });
+}
+function handleError(err, owner = Owner) {
+  const error = castError(err);
+  throw error;
+}
+
+const FALLBACK = Symbol("fallback");
+function dispose(d) {
+  for (let i = 0; i < d.length; i++) d[i]();
+}
+function mapArray(list, mapFn, options = {}) {
+  let items = [],
+    mapped = [],
+    disposers = [],
+    len = 0,
+    indexes = mapFn.length > 1 ? [] : null;
+  onCleanup(() => dispose(disposers));
+  return () => {
+    let newItems = list() || [],
+      newLen = newItems.length,
+      i,
+      j;
+    newItems[$TRACK];
+    return untrack(() => {
+      let newIndices, newIndicesNext, temp, tempdisposers, tempIndexes, start, end, newEnd, item;
+      if (newLen === 0) {
+        if (len !== 0) {
+          dispose(disposers);
+          disposers = [];
+          items = [];
+          mapped = [];
+          len = 0;
+          indexes && (indexes = []);
+        }
+        if (options.fallback) {
+          items = [FALLBACK];
+          mapped[0] = createRoot(disposer => {
+            disposers[0] = disposer;
+            return options.fallback();
+          });
+          len = 1;
+        }
+      }
+      else if (len === 0) {
+        mapped = new Array(newLen);
+        for (j = 0; j < newLen; j++) {
+          items[j] = newItems[j];
+          mapped[j] = createRoot(mapper);
+        }
+        len = newLen;
+      } else {
+        temp = new Array(newLen);
+        tempdisposers = new Array(newLen);
+        indexes && (tempIndexes = new Array(newLen));
+        for (start = 0, end = Math.min(len, newLen); start < end && items[start] === newItems[start]; start++);
+        for (end = len - 1, newEnd = newLen - 1; end >= start && newEnd >= start && items[end] === newItems[newEnd]; end--, newEnd--) {
+          temp[newEnd] = mapped[end];
+          tempdisposers[newEnd] = disposers[end];
+          indexes && (tempIndexes[newEnd] = indexes[end]);
+        }
+        newIndices = new Map();
+        newIndicesNext = new Array(newEnd + 1);
+        for (j = newEnd; j >= start; j--) {
+          item = newItems[j];
+          i = newIndices.get(item);
+          newIndicesNext[j] = i === undefined ? -1 : i;
+          newIndices.set(item, j);
+        }
+        for (i = start; i <= end; i++) {
+          item = items[i];
+          j = newIndices.get(item);
+          if (j !== undefined && j !== -1) {
+            temp[j] = mapped[i];
+            tempdisposers[j] = disposers[i];
+            indexes && (tempIndexes[j] = indexes[i]);
+            j = newIndicesNext[j];
+            newIndices.set(item, j);
+          } else disposers[i]();
+        }
+        for (j = start; j < newLen; j++) {
+          if (j in temp) {
+            mapped[j] = temp[j];
+            disposers[j] = tempdisposers[j];
+            if (indexes) {
+              indexes[j] = tempIndexes[j];
+              indexes[j](j);
+            }
+          } else mapped[j] = createRoot(mapper);
+        }
+        mapped = mapped.slice(0, len = newLen);
+        items = newItems.slice(0);
+      }
+      return mapped;
+    });
+    function mapper(disposer) {
+      disposers[j] = disposer;
+      if (indexes) {
+        const [s, set] = createSignal(j);
+        indexes[j] = set;
+        return mapFn(newItems[j], s);
+      }
+      return mapFn(newItems[j]);
+    }
+  };
+}
+function createComponent(Comp, props) {
+  return untrack(() => Comp(props || {}));
+}
+function For(props) {
+  const fallback = "fallback" in props && {
+    fallback: () => props.fallback
+  };
+  return createMemo(mapArray(() => props.each, props.children, fallback || undefined));
+}
+
+function reconcileArrays(parentNode, a, b) {
+  let bLength = b.length,
+    aEnd = a.length,
+    bEnd = bLength,
+    aStart = 0,
+    bStart = 0,
+    after = a[aEnd - 1].nextSibling,
+    map = null;
+  while (aStart < aEnd || bStart < bEnd) {
+    if (a[aStart] === b[bStart]) {
+      aStart++;
+      bStart++;
+      continue;
+    }
+    while (a[aEnd - 1] === b[bEnd - 1]) {
+      aEnd--;
+      bEnd--;
+    }
+    if (aEnd === aStart) {
+      const node = bEnd < bLength ? bStart ? b[bStart - 1].nextSibling : b[bEnd - bStart] : after;
+      while (bStart < bEnd) parentNode.insertBefore(b[bStart++], node);
+    } else if (bEnd === bStart) {
+      while (aStart < aEnd) {
+        if (!map || !map.has(a[aStart])) a[aStart].remove();
+        aStart++;
+      }
+    } else if (a[aStart] === b[bEnd - 1] && b[bStart] === a[aEnd - 1]) {
+      const node = a[--aEnd].nextSibling;
+      parentNode.insertBefore(b[bStart++], a[aStart++].nextSibling);
+      parentNode.insertBefore(b[--bEnd], node);
+      a[aEnd] = b[bEnd];
+    } else {
+      if (!map) {
+        map = new Map();
+        let i = bStart;
+        while (i < bEnd) map.set(b[i], i++);
+      }
+      const index = map.get(a[aStart]);
+      if (index != null) {
+        if (bStart < index && index < bEnd) {
+          let i = aStart,
+            sequence = 1,
+            t;
+          while (++i < aEnd && i < bEnd) {
+            if ((t = map.get(a[i])) == null || t !== index + sequence) break;
+            sequence++;
+          }
+          if (sequence > index - bStart) {
+            const node = a[aStart];
+            while (bStart < index) parentNode.insertBefore(b[bStart++], node);
+          } else parentNode.replaceChild(b[bStart++], a[aStart++]);
+        } else aStart++;
+      } else a[aStart++].remove();
+    }
+  }
+}
+function render(code, element, init, options = {}) {
+  let disposer;
+  createRoot(dispose => {
+    disposer = dispose;
+    element === document ? code() : insert(element, code(), element.firstChild ? null : undefined, init);
+  }, options.owner);
+  return () => {
+    disposer();
+    element.textContent = "";
+  };
+}
+function template(html, isImportNode, isSVG, isMathML) {
+  let node;
+  const create = () => {
+    const t = document.createElement("template");
+    t.innerHTML = html;
+    return t.content.firstChild;
+  };
+  const fn = () => (node || (node = create())).cloneNode(true);
+  fn.cloneNode = fn;
+  return fn;
+}
+function className(node, value) {
+  node.className = value;
+}
+function insert(parent, accessor, marker, initial) {
+  if (marker !== undefined && !initial) initial = [];
+  if (typeof accessor !== "function") return insertExpression(parent, accessor, initial, marker);
+  createRenderEffect(current => insertExpression(parent, accessor(), current, marker), initial);
+}
+function insertExpression(parent, value, current, marker, unwrapArray) {
+  while (typeof current === "function") current = current();
+  if (value === current) return current;
+  const t = typeof value,
+    multi = marker !== undefined;
+  parent = multi && current[0] && current[0].parentNode || parent;
+  if (t === "string" || t === "number") {
+    if (t === "number") {
+      value = value.toString();
+      if (value === current) return current;
+    }
+    if (multi) {
+      let node = current[0];
+      if (node && node.nodeType === 3) {
+        node.data !== value && (node.data = value);
+      } else node = document.createTextNode(value);
+      current = cleanChildren(parent, current, marker, node);
+    } else {
+      if (current !== "" && typeof current === "string") {
+        current = parent.firstChild.data = value;
+      } else current = parent.textContent = value;
+    }
+  } else if (value == null || t === "boolean") {
+    current = cleanChildren(parent, current, marker);
+  } else if (t === "function") {
+    createRenderEffect(() => {
+      let v = value();
+      while (typeof v === "function") v = v();
+      current = insertExpression(parent, v, current, marker);
+    });
+    return () => current;
+  } else if (Array.isArray(value)) {
+    const array = [];
+    const currentArray = current && Array.isArray(current);
+    if (normalizeIncomingArray(array, value, current, unwrapArray)) {
+      createRenderEffect(() => current = insertExpression(parent, array, current, marker, true));
+      return () => current;
+    }
+    if (array.length === 0) {
+      current = cleanChildren(parent, current, marker);
+      if (multi) return current;
+    } else if (currentArray) {
+      if (current.length === 0) {
+        appendNodes(parent, array, marker);
+      } else reconcileArrays(parent, current, array);
+    } else {
+      current && cleanChildren(parent);
+      appendNodes(parent, array);
+    }
+    current = array;
+  } else if (value.nodeType) {
+    if (Array.isArray(current)) {
+      if (multi) return current = cleanChildren(parent, current, marker, value);
+      cleanChildren(parent, current, null, value);
+    } else if (current == null || current === "" || !parent.firstChild) {
+      parent.appendChild(value);
+    } else parent.replaceChild(value, parent.firstChild);
+    current = value;
+  } else ;
+  return current;
+}
+function normalizeIncomingArray(normalized, array, current, unwrap) {
+  let dynamic = false;
+  for (let i = 0, len = array.length; i < len; i++) {
+    let item = array[i],
+      prev = current && current[normalized.length],
+      t;
+    if (item == null || item === true || item === false) ; else if ((t = typeof item) === "object" && item.nodeType) {
+      normalized.push(item);
+    } else if (Array.isArray(item)) {
+      dynamic = normalizeIncomingArray(normalized, item, prev) || dynamic;
+    } else if (t === "function") {
+      if (unwrap) {
+        while (typeof item === "function") item = item();
+        dynamic = normalizeIncomingArray(normalized, Array.isArray(item) ? item : [item], Array.isArray(prev) ? prev : [prev]) || dynamic;
+      } else {
+        normalized.push(item);
+        dynamic = true;
+      }
+    } else {
+      const value = String(item);
+      if (prev && prev.nodeType === 3 && prev.data === value) normalized.push(prev);else normalized.push(document.createTextNode(value));
+    }
+  }
+  return dynamic;
+}
+function appendNodes(parent, array, marker = null) {
+  for (let i = 0, len = array.length; i < len; i++) parent.insertBefore(array[i], marker);
+}
+function cleanChildren(parent, current, marker, replacement) {
+  if (marker === undefined) return parent.textContent = "";
+  const node = replacement || document.createTextNode("");
+  if (current.length) {
+    let inserted = false;
+    for (let i = current.length - 1; i >= 0; i--) {
+      const el = current[i];
+      if (node !== el) {
+        const isParent = el.parentNode === parent;
+        if (!inserted && !i) isParent ? parent.replaceChild(node, el) : parent.insertBefore(node, marker);else isParent && el.remove();
+      } else inserted = true;
+    }
+  } else parent.insertBefore(node, marker);
+  return [node];
+}
+
+var styles = {"list":"style-module_list__qe8IL"};
+var stylesheet=".style-module_list__qe8IL{margin:.5rem;padding-left:.5rem}";
+
+var css_248z = ".tools-highlight{background:#ff0;border-radius:4px;color:#000;display:inline-block;padding-left:2px;padding-right:2px}";
+
+var _tmpl$ = /*#__PURE__*/template(`<ul>`),
+  _tmpl$2 = /*#__PURE__*/template(`<li>`);
+function _createForOfIteratorHelperLoose(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (t) return (t = t.call(r)).next.bind(t); if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e) { t && (r = t); var o = 0; return function () { return o >= r.length ? { done: true } : { done: false, value: r[o++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+GM_addStyle(css_248z);
+var log = function log() {
+  var _console;
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+  (_console = console).debug.apply(_console, ["twitter-tools:"].concat(args));
+};
+var currentProfileId = "";
+var _createSignal = createSignal([]),
+  currentUserLists = _createSignal[0],
+  setCurrentUserLists = _createSignal[1];
+var listAdd = function listAdd(list_id, name) {
+  GM_lock("lock_list", function () {
+    var lists = GM_getValue("lists", {});
+    lists[list_id] = name;
+    GM_setValue("lists", lists);
+  });
+};
+var listMemberAdd = function listMemberAdd(list_id, user_ids) {
+  GM_lock("lock_list", function () {
+    var member_lists = GM_getValue("member_lists", {});
+    for (var _iterator = _createForOfIteratorHelperLoose(user_ids), _step; !(_step = _iterator()).done;) {
+      var user_id = _step.value;
+      if (!member_lists[user_id]) member_lists[user_id] = [];
+      if (!member_lists[user_id].includes(list_id)) {
+        member_lists[user_id].push(list_id);
+      }
+    }
+    GM_setValue("member_lists", member_lists);
+  });
+};
+var memberListAdd = function memberListAdd(user_id) {
+  for (var _len2 = arguments.length, list_ids = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+    list_ids[_key2 - 1] = arguments[_key2];
+  }
+  GM_lock("lock_list", function () {
+    var member_lists = GM_getValue("member_lists", {});
+    if (!member_lists[user_id]) member_lists[user_id] = [];
+    for (var _i = 0, _list_ids = list_ids; _i < _list_ids.length; _i++) {
+      var list_id = _list_ids[_i];
+      if (!member_lists[user_id].includes(list_id)) {
+        member_lists[user_id].push(list_id);
+      }
+    }
+    GM_setValue("member_lists", member_lists);
+  });
+};
+var memberListRemove = function memberListRemove(user_id) {
+  for (var _len3 = arguments.length, list_ids = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    list_ids[_key3 - 1] = arguments[_key3];
+  }
+  GM_lock("lock_list", function () {
+    var member_lists = GM_getValue("member_lists", {});
+    for (var _i2 = 0, _list_ids2 = list_ids; _i2 < _list_ids2.length; _i2++) {
+      var list_id = _list_ids2[_i2];
+      var deleteIndex = member_lists[user_id].indexOf(list_id);
+      if (deleteIndex > -1) {
+        member_lists[user_id].splice(deleteIndex, 1);
+      }
+    }
+    GM_setValue("member_lists", member_lists);
+  });
+};
+var updateLists = function updateLists(member_lists) {
+  var _member_lists$current;
+  var lists = (_member_lists$current = member_lists[currentProfileId]) != null ? _member_lists$current : [];
+  var lists_cache = GM_getValue("lists", {});
+  setCurrentUserLists(lists == null ? void 0 : lists.flatMap(function (l) {
+    return lists_cache[l];
+  }));
+  if (lists.length > 0) {
+    panelMain.show();
+  } else {
+    panelMain.hide();
+  }
+};
+GM_addValueChangeListener("member_lists", function (_name, _oldValue, newValue) {
+  updateLists(newValue);
+});
+var loadMemberLists = function loadMemberLists() {
+  var member_lists = GM_getValue("member_lists", {});
+  updateLists(member_lists);
+};
+var clearMemberLists = function clearMemberLists() {
+  currentProfileId = "";
+  setCurrentUserLists([]);
+  panelMain.hide();
+};
+var xhr_proto = GMCompat.unsafeWindow.XMLHttpRequest.prototype;
+var backup_xhr_send = xhr_proto.send;
+var onResponse = function onResponse(xhr) {
+  var contentType = xhr.getResponseHeader("Content-Type");
+  if (!(contentType != null && contentType.includes("application/json"))) return;
+  var url = URL.parse(xhr.responseURL);
+  if (!url) return;
+  if (/^\/i\/api\/graphql\/\S+\/CreateList$/.test(url.pathname)) {
+    var _obj$data;
+    var obj = JSON.parse(xhr.response);
+    var list = obj == null || (_obj$data = obj.data) == null ? void 0 : _obj$data.list;
+    var list_id = list == null ? void 0 : list.id_str;
+    var name = list == null ? void 0 : list.name;
+    listAdd(list_id, name);
+  }
+  if (/^\/i\/api\/graphql\/\S+\/ListAddMember$/.test(url.pathname)) {
+    var _obj$data2;
+    if (!currentProfileId) return;
+    var _obj = JSON.parse(xhr.response);
+    var _list_id = _obj == null || (_obj$data2 = _obj.data) == null || (_obj$data2 = _obj$data2.list) == null ? void 0 : _obj$data2.id_str;
+    if (!_list_id) return;
+    memberListAdd(currentProfileId, _list_id);
+    loadMemberLists();
+  }
+  // /i/api/graphql/c2IzeyWiwaQBkFs2VV_vSA/ListRemoveMember
+  if (/^\/i\/api\/graphql\/\S+\/ListRemoveMember$/.test(url.pathname)) {
+    var _obj2$data;
+    log(currentProfileId);
+    if (!currentProfileId) return;
+    var _obj2 = JSON.parse(xhr.response);
+    var _list_id2 = _obj2 == null || (_obj2$data = _obj2.data) == null || (_obj2$data = _obj2$data.list) == null ? void 0 : _obj2$data.id_str;
+    log(_list_id2);
+    if (!_list_id2) return;
+    memberListRemove(currentProfileId, _list_id2);
+    loadMemberLists();
+  }
+  if (/^\/i\/api\/1\.1\/lists\/memberships\.json$/.test(url.pathname)) {
+    var _obj3 = JSON.parse(xhr.response);
+    var lists = _obj3 == null ? void 0 : _obj3.lists;
+    if (!lists) return;
+    var user_id = url.searchParams.get("user_id");
+    if (!user_id) return;
+    var list_ids = lists == null ? void 0 : lists.flatMap(function (l) {
+      return l == null ? void 0 : l.id_str;
+    });
+    memberListAdd.apply(void 0, [user_id].concat(list_ids));
+  }
+  if (/^\/i\/api\/graphql\/\S+\/ListMembers$/.test(url.pathname)) {
+    var _JSON$parse, _obj4$data, _instructions$find;
+    var _obj4 = JSON.parse(xhr.response);
+    var variables = url.searchParams.get("variables");
+    if (!variables) return;
+    var _list_id3 = (_JSON$parse = JSON.parse(variables)) == null ? void 0 : _JSON$parse.listId;
+    if (!_list_id3) return;
+    var instructions = _obj4 == null || (_obj4$data = _obj4.data) == null || (_obj4$data = _obj4$data.list) == null || (_obj4$data = _obj4$data.members_timeline) == null || (_obj4$data = _obj4$data.timeline) == null ? void 0 : _obj4$data.instructions;
+    if (!instructions) return;
+    var entries = instructions == null || (_instructions$find = instructions.find(function (instruction) {
+      return (instruction == null ? void 0 : instruction.type) == "TimelineAddEntries";
+    })) == null ? void 0 : _instructions$find.entries;
+    if (!entries) return;
+    var userEntries = entries == null ? void 0 : entries.filter(function (entry) {
+      var _entry$entryId;
+      return entry == null || (_entry$entryId = entry.entryId) == null ? void 0 : _entry$entryId.startsWith("user-");
+    });
+    var user_ids = [];
+    for (var _iterator2 = _createForOfIteratorHelperLoose(userEntries), _step2; !(_step2 = _iterator2()).done;) {
+      var _entry$content;
+      var entry = _step2.value;
+      var _user_id = entry == null || (_entry$content = entry.content) == null || (_entry$content = _entry$content.itemContent) == null || (_entry$content = _entry$content.user_results) == null || (_entry$content = _entry$content.result) == null ? void 0 : _entry$content.rest_id;
+      user_ids.push(_user_id);
+    }
+    listMemberAdd(_list_id3, user_ids);
+  }
+  if (/^\/i\/api\/graphql\/\S+\/ListsManagementPageTimeline$/.test(url.pathname)) {
+    var _obj5$data, _instructions$filter, _entries$filter;
+    var _obj5 = JSON.parse(xhr.response);
+    var _instructions = _obj5 == null || (_obj5$data = _obj5.data) == null || (_obj5$data = _obj5$data.viewer) == null || (_obj5$data = _obj5$data.list_management_timeline) == null || (_obj5$data = _obj5$data.timeline) == null ? void 0 : _obj5$data.instructions;
+    if (!_instructions) return;
+    var _entries = (_instructions$filter = _instructions.filter(function (instruction) {
+      return (instruction == null ? void 0 : instruction.type) == "TimelineAddEntries";
+    })) == null || (_instructions$filter = _instructions$filter.at(0)) == null ? void 0 : _instructions$filter.entries;
+    if (!_entries) return;
+    var items = (_entries$filter = _entries.filter(function (entry) {
+      return (entry == null ? void 0 : entry.entryId) == "owned-subscribed-list-module-0";
+    })) == null || (_entries$filter = _entries$filter.at(0)) == null || (_entries$filter = _entries$filter.content) == null ? void 0 : _entries$filter.items;
+    if (!items) return;
+    var _lists = items == null ? void 0 : items.flatMap(function (item) {
+      var _item$item;
+      return item == null || (_item$item = item.item) == null || (_item$item = _item$item.itemContent) == null ? void 0 : _item$item.list;
+    });
+    GM_lock("lock_list", function () {
+      var lists_prev = GM_getValue("lists", {});
+      for (var _iterator3 = _createForOfIteratorHelperLoose(_lists), _step3; !(_step3 = _iterator3()).done;) {
+        var l = _step3.value;
+        var id = l == null ? void 0 : l.id_str;
+        var _name2 = l == null ? void 0 : l.name;
+        if (!id || !_name2) continue;
+        lists_prev[id] = _name2;
+      }
+      GM_setValue("lists", lists_prev);
+    });
+  }
+};
+function new_xhr_send(body) {
+  var backup_onreadystatechange = this.onreadystatechange;
+  this.onreadystatechange = function (event) {
+    if (this.readyState === this.DONE && this.responseURL && this.status === 200) {
+      onResponse(this);
+    }
+    if (backup_onreadystatechange) {
+      backup_onreadystatechange.call(this, event);
+    }
+  };
+  GMCompat.apply(this, backup_xhr_send, [body]);
+}
+xhr_proto.send = GMCompat["export"](new_xhr_send);
+var processSpan = function processSpan(span) {
+  if (span.childElementCount > 0) return;
+  var regex = /(総?作画?監督?|第?(2|２|二)原画?|原画|コンテ|演出|脚本|担当|美術|背景|制作|仕上|動画?検査?|手伝い|参加|カット|レイアウト|key animat(or|ion)|\bcuts?\b|\bgenga\b|\bnigen\b|\blo\b|sakkan|layouts?|storyboards?|animation direction|\bpart\b|episode director)/gi;
+  if (!regex.test(span.textContent)) return;
+  var el = document.createElement("span");
+  el.classList.add("tools-highlight");
+  el.innerText = "REPLACE";
+  span.innerHTML = span.innerHTML.replaceAll(regex, el.outerHTML.replace("REPLACE", "$$&"));
+};
+VM.observe(document.body, function (mutations) {
+  for (var _iterator4 = _createForOfIteratorHelperLoose(mutations), _step4; !(_step4 = _iterator4()).done;) {
+    var _target$parentElement;
+    var mutation = _step4.value;
+    var target = mutation.target;
+    if (mutation.type == "characterData" && ((_target$parentElement = target.parentElement) == null || (_target$parentElement = _target$parentElement.parentElement) == null ? void 0 : _target$parentElement.dataset["testid"]) == "tweetText" && target.parentElement instanceof HTMLSpanElement) {
+      processSpan(target.parentElement);
+    } else if (mutation.type == "childList" && target instanceof HTMLElement) {
+      var _target$parentElement2;
+      if (target.dataset["testid"] == "tweetText") {
+        // log("show more", target, mutation.addedNodes)
+        for (var _iterator5 = _createForOfIteratorHelperLoose(mutation.addedNodes), _step5; !(_step5 = _iterator5()).done;) {
+          var addedNode = _step5.value;
+          var span = addedNode;
+          if (!(span instanceof HTMLSpanElement)) continue;
+          processSpan(span);
+        }
+      }
+      if ((_target$parentElement2 = target.parentElement) != null && (_target$parentElement2 = _target$parentElement2.ariaLabel) != null && _target$parentElement2.startsWith("Timeline: ")) {
+        // log("posts", target, mutation.addedNodes)
+        for (var _iterator6 = _createForOfIteratorHelperLoose(mutation.addedNodes), _step6; !(_step6 = _iterator6()).done;) {
+          var _addedNode = _step6.value;
+          var el = _addedNode;
+          if (!(el instanceof HTMLDivElement)) continue;
+          var tweetTexts = el.querySelectorAll('[data-testid="tweetText"]');
+          for (var _iterator7 = _createForOfIteratorHelperLoose(tweetTexts), _step7; !(_step7 = _iterator7()).done;) {
+            var tweetText = _step7.value;
+            var spans = tweetText.querySelectorAll("span");
+            for (var _iterator8 = _createForOfIteratorHelperLoose(spans), _step8; !(_step8 = _iterator8()).done;) {
+              var _span = _step8.value;
+              processSpan(_span);
+            }
+          }
+        }
+      }
+    }
+  }
+}, {
+  characterData: true
+});
+VM.observe(document.head, function () {
+  var _obj$mainEntity;
+  var userProfileSchema = document.querySelector("script[data-testid=UserProfileSchema-test]");
+  if (!userProfileSchema) {
+    clearMemberLists();
+    return;
+  }
+  var obj = JSON.parse(userProfileSchema == null ? void 0 : userProfileSchema.textContent);
+  if (obj["@type"] != "ProfilePage" || (obj == null ? void 0 : obj.mainEntity["@type"]) != "Person") {
+    clearMemberLists();
+    return;
+  }
+  currentProfileId = obj == null || (_obj$mainEntity = obj.mainEntity) == null ? void 0 : _obj$mainEntity.identifier;
+  loadMemberLists();
+});
+document.addEventListener("copy", function (event) {
+  var _document$getSelectio;
+  var textSelection = (_document$getSelectio = document.getSelection()) == null ? void 0 : _document$getSelectio.toString();
+  if (!textSelection) return;
+  if (!URL.canParse(textSelection)) return;
+  var url = URL.parse(textSelection);
+  if (!url) return;
+  if (url.hostname != "x.com") return;
+  var re = /^\/\S+\/status\/(\d+)$/;
+  var match = url.pathname.match(re);
+  if (!match) return;
+  var snowflakeId = match.at(1);
+  if (!snowflakeId) return;
+  if (!event.clipboardData) return;
+  event.clipboardData.setData("text/plain", snowflakeId);
+  event.preventDefault();
+});
+function PanelMain() {
+  return function () {
+    var _el$ = _tmpl$();
+    insert(_el$, createComponent(For, {
+      get each() {
+        return currentUserLists();
+      },
+      children: function children(id) {
+        return function () {
+          var _el$2 = _tmpl$2();
+          insert(_el$2, id);
+          return _el$2;
+        }();
+      }
+    }));
+    createRenderEffect(function () {
+      return className(_el$, styles["list"]);
+    });
+    return _el$;
+  }();
+}
+var panelMain = ui.getPanel({
+  style: stylesheet
+});
+Object.assign(panelMain.wrapper.style, {
+  left: "8px",
+  bottom: "8px"
+});
+Object.assign(panelMain.body.style, {
+  borderRadius: "8px",
+  padding: "4px"
+});
+render(PanelMain, panelMain.body);
+
+})(VM, VM);

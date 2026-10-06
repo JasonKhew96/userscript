@@ -433,8 +433,25 @@ render(PanelMain, panelMain.body)
 VM.observe(document, (mutations: MutationRecord[]) => {
   for (const mutation of mutations) {
     for (const addedNode of mutation.addedNodes) {
-      if (addedNode instanceof HTMLFormElement && document.location.pathname.startsWith("/ui/acg/")) {
-        const input = addedNode.querySelector("input[placeholder='例如 Yomi no Tsugai']")
+      if (
+        document.location.pathname.startsWith("/ui/acg/") &&
+        addedNode instanceof HTMLFormElement
+      ) {
+        const input = addedNode.querySelector(
+          "input[placeholder='例如 Yomi no Tsugai']",
+        )
+        if (input === null || !(input instanceof HTMLInputElement)) continue
+        input.maxLength = 47
+      }
+      if (
+        document.location.pathname === "/ui/acg/new" &&
+        addedNode instanceof HTMLDivElement &&
+        addedNode.querySelector("input[placeholder='例如 Yomi no Tsugai']") !=
+          null
+      ) {
+        const input = addedNode.querySelector(
+          "input[placeholder='例如 Yomi no Tsugai']",
+        )
         if (input === null || !(input instanceof HTMLInputElement)) continue
         input.maxLength = 47
       }
