@@ -1,6 +1,7 @@
 import { createSignal, For, Show } from "solid-js"
 import { render } from "solid-js/web"
 import { getPanel } from "@violentmonkey/ui"
+import VM from "@violentmonkey/dom"
 // global CSS
 import globalCss from "./style.css"
 // CSS modules
@@ -428,3 +429,15 @@ Object.assign(panelMain.body.style, {
 // panel.setMovable(false)
 panelMain.show()
 render(PanelMain, panelMain.body)
+
+VM.observe(document, (mutations: MutationRecord[]) => {
+  for (const mutation of mutations) {
+    for (const addedNode of mutation.addedNodes) {
+      if (addedNode instanceof HTMLFormElement && document.location.pathname.startsWith("/ui/acg/")) {
+        const input = addedNode.querySelector("input[placeholder='例如 Yomi no Tsugai']")
+        if (input === null || !(input instanceof HTMLInputElement)) continue
+        input.maxLength = 47
+      }
+    }
+  }
+})

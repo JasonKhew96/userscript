@@ -10,7 +10,7 @@
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_xmlhttpRequest
-// @version     0.2
+// @version     0.3
 // @author      process.env.AUTHOR
 // @downloadURL https://github.com/JasonKhew96/userscript/raw/refs/heads/master/dist/private-dashboard.user.js
 // ==/UserScript==
